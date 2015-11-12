@@ -2,27 +2,88 @@ group 'com.company'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'idea'
 
-sourceCompatibility = 1.5
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
-}
-group 'com.company'
-version '1.0-SNAPSHOT'
-
-apply plugin: 'java'
-
-sourceCompatibility = 1.5
+mainClassName = "com.company.SpringApplication.Main"
 
 repositories {
     mavenCentral()
 }
 
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources {
+            srcDir 'src/main/resources'
+        }
+    }
+
+    test {
+        java {
+            srcDir 'src/test/java'
+        }
+        resources {
+            srcDir 'src/test/resources'
+        }
+    }
+}
+
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile  'junit:junit:4.12'
+
+    compile 'commons-logging:commons-logging:1.2'
+
+    compile 'org.springframework:spring-context:4.2.2.RELEASE'
+    compile 'org.springframework:spring-context:4.2.2.RELEASE'
+    compile 'org.springframework:spring-core:4.2.2.RELEASE'
+    compile 'org.springframework:spring-beans:4.2.2.RELEASE'
+    compile 'org.springframework:spring-expression:4.2.2.RELEASE'
+
+    runtime group: 'org.springframework', name: 'spring-core', version: '4.2.2.RELEASE'
+    runtime 'org.springframework:spring-core:4.2.2.RELEASE',
+            'org.springframework:spring-aop:4.2.2.RELEASE'
+    runtime(
+            [group: 'org.springframework', name: 'spring-core', version: '4.2.2.RELEASE'],
+            [group: 'org.springframework', name: 'spring-aop', version: '4.2.2.RELEASE']
+    )
+}
+
+/**
+ * Task runApp runs the Main() class of Application.
+ */
+task runApp(type:JavaExec) {
+    description = "Run the app"
+    main = mainClassName
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+/**
+ * Task runTest runs application tests and form html report in build/report
+ * directory.
+ */
+task runTest(type: Test) {
+    description = "Run the app tests"
+    testClassesDir = project.sourceSets.test.output.classesDir
+    classpath = project.sourceSets.test.runtimeClasspath
+}
+
+/**
+ * Task showTestReport runs application tests and shows result as a html-page in
+ * default system browser (it uses exec commands so that now it's for Windows
+ * only).
+ */
+task showTestReport(type:Exec) { //on windows only:
+    doFirst {
+        try{
+            runTest.execute()
+        } catch(GradleException gex){
+            println 'Some tests were not passed'
+        }
+    }
+    description = "Open html formated result of testing in browser"
+    workingDir './build/reports/tests'
+    commandLine 'cmd', '/c', 'start index.html'
 }
