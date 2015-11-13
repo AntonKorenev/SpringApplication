@@ -6,6 +6,8 @@ import com.company.SpringApplication.Publishers.PublisherDashboard;
 import com.company.SpringApplication.Publishers.PublisherDatabase;
 import com.company.SpringApplication.Publishers.PublisherUpstream;
 
+import java.io.File;
+
 /**
  * <p>The Processor class is responsible for application data routing and management.</p>
  * <p>The main role is to convert data from Connectors package classes using Publishers
@@ -97,4 +99,6 @@ public class Processor {
     public void setMapperXML(MapperXML mapperXML) {
         this.mapperXML = mapperXML;
     }
+
+    public void proccess(File processingFile){};
 }

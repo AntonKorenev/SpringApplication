@@ -1,3 +1,4 @@
+import com.company.SpringApplication.Connectors.ConnectorCSV;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
@@ -28,6 +29,7 @@ public class IntegrationTest {
     @Test
     public void testUpstreamRecord(){
         System.out.println("Starting upstream record correctness test");
+        ConnectorCSV csv;
     }
 
     /**
