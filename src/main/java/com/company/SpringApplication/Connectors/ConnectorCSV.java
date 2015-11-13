@@ -26,6 +26,7 @@ public class ConnectorCSV {
 
         //creating string to write into file
         String[][] dataArray = {
+                {"Name","City","Job"},
                 {"Erick", "Amsterdam", "sailor"},
                 {"Sarah","Chicago","driver"},
                 {"Judie","Winnipeg","manager"}
