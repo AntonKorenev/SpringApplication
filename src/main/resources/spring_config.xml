@@ -1,0 +1,58 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- ConnectorCSV bean -->
+    <bean id = "connectorCSV"
+          class="com.company.SpringApplication.Connectors.ConnectorCSV"
+          scope="prototype">
+        <constructor-arg ref="processor"/>
+    </bean>
+
+    <!-- Processor bean -->
+    <bean id="processor"
+          class="com.company.SpringApplication.Processors.Processor"
+          scope="singleton">
+
+        <!-- Constructor injection references -->
+        <constructor-arg ref="publisherDashboard"/>
+        <constructor-arg ref="publisherDatabase"/>
+        <constructor-arg ref="publisherUpstream"/>
+
+        <!-- MapperJSON inner bean -->
+        <property name="mapperJSON">
+            <bean id="mapperJSON"
+                  class="com.company.SpringApplication.Mappers.MapperJSON"
+                  scope="prototype">
+            </bean>
+        </property>
+
+        <!-- MapperXML inner bean -->
+        <property name="mapperXML">
+            <bean id="mapperXML"
+                  class="com.company.SpringApplication.Mappers.MapperXML"
+                  scope="prototype">
+            </bean>
+        </property>
+    </bean>
+
+    <!-- PublisherDashboard bean -->
+    <bean id="publisherDashboard"
+          class="com.company.SpringApplication.Publishers.PublisherDashboard"
+          scope="singleton">
+    </bean>
+
+    <!-- PublisherDatabase bean -->
+    <bean id="publisherDatabase"
+          class="com.company.SpringApplication.Publishers.PublisherDatabase"
+          scope="singleton">
+    </bean>
+
+    <!-- PublisherUpstream bean -->
+    <bean id="publisherUpstream"
+          class="com.company.SpringApplication.Publishers.PublisherUpstream"
+          scope="singleton">
+    </bean>
+
+</beans>
