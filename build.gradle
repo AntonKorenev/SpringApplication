@@ -42,6 +42,8 @@ dependencies {
     compile 'org.springframework:spring-beans:4.2.2.RELEASE'
     compile 'org.springframework:spring-expression:4.2.2.RELEASE'
 
+    compile 'com.thoughtworks.xstream:xstream:1.4.4'
+
     runtime group: 'org.springframework', name: 'spring-core', version: '4.2.2.RELEASE'
     runtime 'org.springframework:spring-core:4.2.2.RELEASE',
             'org.springframework:spring-aop:4.2.2.RELEASE'
@@ -80,6 +82,7 @@ task showTestReport(type:Exec) { //on windows only:
         try{
             runTest.execute()
         } catch(GradleException gex){
+            gex.printStackTrace();
             println 'Some tests were not passed'
         }
     }
