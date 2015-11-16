@@ -55,4 +55,9 @@
           scope="singleton">
     </bean>
 
+    <bean id="order"
+          class="com.company.SpringApplication.domain.Order"
+          scope="prototype">
+    </bean>
+
 </beans>

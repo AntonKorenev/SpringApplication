@@ -1,9 +1,8 @@
 package com.company.SpringApplication.domain;
 
-/**
- * Created by anton.korenev on 11/16/2015.
- */
-public class Order {
+import java.io.Serializable;
+
+public class Order implements Serializable{
     private final int id;
     private final String firstName;
     private final String lastName;

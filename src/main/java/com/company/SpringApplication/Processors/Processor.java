@@ -5,8 +5,7 @@ import com.company.SpringApplication.Mappers.MapperXML;
 import com.company.SpringApplication.Publishers.PublisherDashboard;
 import com.company.SpringApplication.Publishers.PublisherDatabase;
 import com.company.SpringApplication.Publishers.PublisherUpstream;
-
-import java.io.File;
+import com.company.SpringApplication.domain.Order;
 
 /**
  * <p>The Processor class is responsible for application data routing and management.</p>
@@ -100,5 +99,5 @@ public class Processor {
         this.mapperXML = mapperXML;
     }
 
-    public void proccess(File processingFile){};
+    public void proccess(Order processingOrder){};
 }

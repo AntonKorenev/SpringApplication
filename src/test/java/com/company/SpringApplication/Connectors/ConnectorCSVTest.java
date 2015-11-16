@@ -1,48 +1,51 @@
 package com.company.SpringApplication.Connectors;
 
+import com.company.SpringApplication.domain.Order;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
 import static org.junit.Assert.assertTrue;
 
-public class ConnectorCSVTest {
-    ConnectorCSV csv;
 
-    //Temporary solution. Will be replaced with spring-test methods as soon as I will bew familiar with them
+public class ConnectorCSVTest {
+    Order orderFromService;
+
     @Before
-    public void initialize() {
+    public void init(){
         AbstractApplicationContext context =
                 new ClassPathXmlApplicationContext("spring_config.xml");
-        csv = (ConnectorCSV) context.getBean("connectorCSV");
-    }
-
-    @Test(timeout=1000)//after adding servlet/service I'll set up more appropriate timeout
-    public void connectorAchievesFileFromService() {
+        ConnectorCSV connectorCSV = (ConnectorCSV) context.getBean("connectorCSV");
         try {
-            Method method = csv.getClass().getDeclaredMethod("getFileFromService");
+            Method method = connectorCSV.getClass().getDeclaredMethod("getOrderFromService");
             method.setAccessible(true);
-            File fileFormService = (File) method.invoke(csv);
-            assertTrue(fileFormService.exists());
+            orderFromService = (Order) method.invoke(connectorCSV);
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
+    }
+
+    //Now just testing a static request
+    @Test
+    public void connectorCSVReceivesRequestFromService(){
+        assertTrue(orderFromService != null);
     }
 
     @Test
-    public void formatOfFileFromServiceIsCSV() {
-        try {
-            Method method = csv.getClass().getDeclaredMethod("getFileFromService");
-            method.setAccessible(true);
-            File fileFormService = (File) method.invoke(csv);
-            String fileFromServiceName = fileFormService.getName();
-            assertTrue(fileFromServiceName.contains(".csv"));
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
+    public void connectorCSVGenerateProperFormat(){
+        assertTrue(orderFromService.getClass().getName().equals("com.company.SpringApplication.domain.Order"));
+    }
+
+    @Test
+    public void orderObjectWasFormedProperly(){
+        boolean passed = false;
+        if(orderFromService.getId() == -1 && orderFromService.getFirstName().equals("Anton")
+                && orderFromService.getLastName().equals("Korenev") && orderFromService.getPosition().equals("Intern")
+                && orderFromService.getTaskDescription().equals("He wants to learn spring")){
+            passed = true;
         }
+        assertTrue(passed);
     }
 }

@@ -1,9 +1,7 @@
 package com.company.SpringApplication.Connectors;
 
 import com.company.SpringApplication.Processors.Processor;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
+import com.company.SpringApplication.domain.Order;
 
 /**
  * <p>The ConnectorCSV class is responsible for getting date from service in CSV format
@@ -19,42 +17,18 @@ public class ConnectorCSV {
         this.processor = processor;
     }
 
-    //now it's just creating a new temporary file. It will be replaced by Servlet request soon. Planning to make a
-    // property in a bean which will post a file from servlet to increase a level of beans self-independence.
-    private File getFileFromService() throws NullPointerException{
-        File csvFile = null;
-
-        //creating string to write into file
-        String[][] dataArray = {
-                {"Name","City","Job"},
-                {"Erick", "Amsterdam", "sailor"},
-                {"Sarah","Chicago","driver"},
-                {"Judie","Winnipeg","manager"}
-        };
-        StringBuilder fileContentBuilder = new StringBuilder();
-        for(String[] line: dataArray){
-            for (int p=0; p<line.length-1; p++ ){
-                fileContentBuilder.append(line[p]).append(',');
-            }
-            fileContentBuilder.append('\n');
-        }
-
-        //creating temp file and writing formed string to it
-        try {
-            csvFile = File.createTempFile("data", ".csv");
-            PrintWriter csvFileWriter = new PrintWriter(csvFile.getAbsolutePath());
-            csvFileWriter.print(fileContentBuilder.toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return csvFile;
+    //Until tomorrow the response String is static. Than it will be replaced by the servlet response.
+    private Order getOrderFromService(){
+        String csvString = "-1,Anton,Korenev,Intern,He wants to learn spring";
+        String[] values = csvString.split(",");
+        return new Order(Integer.valueOf(values[0]),values[1],values[2],values[3],values[4]);
     }
 
-    public void sendNewFileForProcessing(){
+    public void sendOrderForProcessing(){
         //not sure how is this code block correlated with Spring app logic(Specifically, putting createFile() to
         // process(File f)).
         try {
-            processor.proccess(getFileFromService());
+            processor.proccess(getOrderFromService());
         } catch (NullPointerException ex){
             ex.printStackTrace();
         }
