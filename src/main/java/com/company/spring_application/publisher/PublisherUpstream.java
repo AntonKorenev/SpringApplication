@@ -1,4 +1,4 @@
-package com.company.SpringApplication.Publishers;
+package com.company.spring_application.publisher;
 
 /**
  * <p>The PublisherUpstream class is responsible for converting data from <b>XML<b/> format and
@@ -8,9 +8,7 @@ package com.company.SpringApplication.Publishers;
  * @version 0.1
  */
 public class PublisherUpstream {
-    /**
-     * The default constructor.
-     */
+
     public PublisherUpstream() {
 
     }

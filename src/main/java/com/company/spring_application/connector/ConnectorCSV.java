@@ -1,7 +1,7 @@
-package com.company.SpringApplication.Connectors;
+package com.company.spring_application.connector;
 
-import com.company.SpringApplication.Processors.Processor;
-import com.company.SpringApplication.domain.Order;
+import com.company.spring_application.processor.Processor;
+import com.company.spring_application.domain.Order;
 
 /**
  * <p>The ConnectorCSV class is responsible for getting date from service in CSV format

@@ -1,4 +1,4 @@
-package com.company.SpringApplication.domain;
+package com.company.spring_application.domain;
 
 import java.io.Serializable;
 

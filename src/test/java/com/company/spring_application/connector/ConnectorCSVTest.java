@@ -1,6 +1,6 @@
-package com.company.SpringApplication.Connectors;
+package com.company.spring_application.connector;
 
-import com.company.SpringApplication.domain.Order;
+import com.company.spring_application.domain.Order;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -35,7 +35,7 @@ public class ConnectorCSVTest {
 
     @Test
     public void connectorCSVGenerateProperFormat(){
-        assertTrue(orderFromService.getClass().getName().equals("com.company.SpringApplication.domain.Order"));
+        assertTrue(orderFromService.getClass().getName().equals("com.company.spring_application.domain.Order"));
     }
 
     @Test

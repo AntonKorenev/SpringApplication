@@ -1,29 +1,21 @@
-package com.company.SpringApplication.Mappers;
+package com.company.spring_application.mapper;
 
-import com.company.SpringApplication.domain.Order;
+import com.company.spring_application.domain.Order;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
 /**
  * <p>The MapperJSON class is responsible for converting <b>CSV</b> file received from
- * {@link com.company.SpringApplication.Processors.Processor} class into <b>JSON</b> format and
+ * {@link com.company.spring_application.processor.Processor} class into <b>JSON</b> format and
  * sending the result back to Processor.</p>
  *
  * @author AntonKorenev
  * @version 0.1
  */
 public class MapperJSON {
-    /**
-     * The Default class constructor.
-     */
-    public MapperJSON() {
-
-    }
-
     public String convert(Order order) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(order);
-        return json;
+        return mapper.writeValueAsString(order);
     }
 }

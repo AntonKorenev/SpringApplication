@@ -1,6 +1,6 @@
-package com.company.SpringApplication.Mappers;
+package com.company.spring_application.mapper;
 
-import com.company.SpringApplication.domain.Order;
+import com.company.spring_application.domain.Order;
 import org.junit.Test;
 import java.io.IOException;
 import static org.junit.Assert.assertTrue;
