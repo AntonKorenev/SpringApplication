@@ -1,5 +1,6 @@
 package com.company.spring_application.connector;
 
+import com.company.spring_application.domain.Product;
 import com.company.spring_application.processor.Processor;
 import com.company.spring_application.domain.Order;
 
@@ -17,9 +18,20 @@ public class ConnectorCSV {
         this.processor = processor;
     }
 
-    private Order formOrderFromCSV(String csvString){
-        String[] values = csvString.split(",");
-        return new Order(Integer.valueOf(values[0]),values[1],values[2],values[3],values[4]);
+    private Order formOrderFromCSV(String csvString) throws NullPointerException{
+        String[] orderValues = csvString.split(",");
+        Product[] productsInOrder = new Product[orderValues.length - 4];
+        if(orderValues.length < 4){
+            throw new NullPointerException("Empty product list");
+        } else{
+            for(int i = 4; i < orderValues.length; i++){
+                String[] productSplit = orderValues[i].split(" ");
+                productsInOrder[i-4] = new Product(Integer.valueOf(productSplit[0]), Double.valueOf(productSplit[1]),
+                        productSplit[2]);
+            }
+        }
+        return new Order(Integer.valueOf(orderValues[0]), orderValues[1], orderValues[2], orderValues[3],
+                productsInOrder);
     }
 
     public void sendForProcessing(String csvString){

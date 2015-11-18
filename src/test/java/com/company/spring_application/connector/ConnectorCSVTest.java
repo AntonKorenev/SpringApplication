@@ -12,49 +12,36 @@ import static org.junit.Assert.assertTrue;
 
 
 public class ConnectorCSVTest {
-    ConnectorCSV connectorCSV;
+    Order order;
 
     @Before
     public void init(){
         AbstractApplicationContext context =
                 new ClassPathXmlApplicationContext("spring_config.xml");
-        connectorCSV = (ConnectorCSV) context.getBean("connectorCSV");
-
-    }
-
-    @Test
-    public void connectorCSVGenerateProperFormat(){
-        Order order = null;
+        ConnectorCSV connectorCSV = (ConnectorCSV) context.getBean("connectorCSV");
         try {
             Class[] cArg = new Class[1];
             cArg[0] = String.class;
             Method method = connectorCSV.getClass().getDeclaredMethod("formOrderFromCSV",cArg);
             method.setAccessible(true);
-            order = (Order) method.invoke(connectorCSV, "1,Anton,Korenev,Intern,He wants to learn Spring");
+            order = (Order) method.invoke(connectorCSV, "1,Anton,Korenev,buy,1 1000 tv,2 200 monitor");
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void connectorCSVGenerateProperFormat(){
         assertTrue(order!=null);
         assertEquals(order.getClass().getName(),"com.company.spring_application.domain.Order");
     }
 
     @Test
     public void orderObjectWasFormedProperly(){
-        Order order = null;
-        try {
-            Class[] cArg = new Class[1];
-            cArg[0] = String.class;
-            Method method = connectorCSV.getClass().getDeclaredMethod("formOrderFromCSV",cArg);
-            method.setAccessible(true);
-            order = (Order) method.invoke(connectorCSV, "1,Anton,Korenev,Intern,He wants to learn Spring");
-        } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
         assertTrue(1 == order.getId());
         assertEquals("Anton", order.getFirstName());
         assertEquals("Korenev", order.getLastName());
-        assertEquals("Intern", order.getPosition());
-        assertEquals("He wants to learn Spring", order.getTaskDescription());
+        assertEquals("buy", order.getTaskDescription());
+        assertTrue(order.getProducts().get(0).getId() == 1);
     }
 }
