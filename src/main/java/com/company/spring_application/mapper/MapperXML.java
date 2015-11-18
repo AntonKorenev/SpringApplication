@@ -15,7 +15,6 @@ public class MapperXML {
     public String convert(Order order){
         XStream xs = new XStream();
         String xml = xs.toXML(order);
-        System.out.println(xml);
         return xml;
     }
 }
