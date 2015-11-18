@@ -31,25 +31,25 @@ public class ServletCSV extends HttpServlet{
         //getting values from web fields
         String firstName = req.getParameter("fname");
         String lastName = req.getParameter("lname");
-        String position = req.getParameter("position");
         String task = req.getParameter("task");
+        String orders = req.getParameter("orders");
 
-        if(!firstName.isEmpty() && !lastName.isEmpty() && !position.isEmpty() && !task.isEmpty()){
-            resp.setStatus(1);
+        if(!firstName.isEmpty() && !lastName.isEmpty() && !orders.isEmpty() && !task.isEmpty()){
+            resp.setStatus(200);
         } else {
-            resp.setStatus(0);
+            resp.setStatus(405);
         }
 
         //creating csv string
         StringBuilder csvStringBuilder = new StringBuilder();
-        csvStringBuilder.append(id).append(',').append(firstName).append(',').append(lastName).append(',')
-                .append(position).append(',').append(task);
-        //connector.sendForProcessing(csvStringBuilder.toString());
+        csvStringBuilder.append(id).append(',').append(firstName).append(',').append(lastName).append(',').append(task)
+                .append(',').append(orders);
+        connector.sendForProcessing(csvStringBuilder.toString());
         id++;
 
         //writing successful response to web part
         printWriter.print("Order with parameters:\n\t id ="+id+"\n\t"+"First Name = "+firstName+"\n\tLast Name = "
-                +lastName + "\n\t Position = "+position + "\n\t Task ="+task + "\n Was Succesfully created");
+                +lastName + "\n\t Task ="+task + "\n\t Orders = "+orders + "\n Was Succesfully created");
     }
 
     @Override

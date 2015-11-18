@@ -101,7 +101,7 @@ task runTest(type: Test) {
  * default system browser (it uses exec commands so that now it's for Windows
  * only).
  */
-task showTestReport(type:Exec) { //on windows only:
+task showTestReportWindows(type:Exec) { //on windows only:
     doFirst {
         try{
             runTest.execute()

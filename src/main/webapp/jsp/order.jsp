@@ -55,12 +55,12 @@
                     <td><input class="field_style" type="text" name="lname"></td>
                 </tr>
                 <tr>
-                    <td class="text_style">Position: </td>
-                    <td><input class="field_style" type="text" name="position"></td>
-                </tr>
-                <tr>
                     <td class="text_style">Task: </td>
                     <td><input class="field_style" type="text" name="task"></td>
+                </tr>
+                <tr>
+                    <td class="text_style">Orders: </td>
+                    <td><input class="field_style" type="text" name="orders"></td>
                 </tr>
               </table>
               </p>
