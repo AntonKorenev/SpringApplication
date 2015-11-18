@@ -4,11 +4,22 @@ version '1.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'idea'
+apply plugin: 'war'
+apply plugin: 'org.akhikhl.gretty'
 
 mainClassName = "com.company.spring_application.Main"
 
 repositories {
     mavenCentral()
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.akhikhl.gretty:gretty:+'
+    }
 }
 
 sourceSets {
@@ -32,10 +43,15 @@ sourceSets {
 }
 
 dependencies {
-    testCompile  'junit:junit:4.12'
+    testCompile 'junit:junit:4.12'
+    testCompile 'com.mockrunner:mockrunner-servlet:1.1.0'
 
     compile 'commons-logging:commons-logging:1.2'
 
+    compile 'javax.servlet:javax.servlet-api:3.1.0'
+    compile 'jstl:jstl:1.2'
+
+    compile 'org.springframework:spring-webmvc:4.2.2.RELEASE'
     compile 'org.springframework:spring-context:4.2.2.RELEASE'
     compile 'org.springframework:spring-test:4.2.2.RELEASE'
     compile 'org.springframework:spring-core:4.2.2.RELEASE'
@@ -53,6 +69,13 @@ dependencies {
             [group: 'org.springframework', name: 'spring-aop', version: '4.2.2.RELEASE']
     )
 }
+
+gretty {
+    port = 8080
+    contextPath = '/'
+    servletContainer = 'jetty9'
+}
+
 
 /**
  * Task runApp runs the Main() class of Application.

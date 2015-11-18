@@ -17,18 +17,14 @@ public class ConnectorCSV {
         this.processor = processor;
     }
 
-    //Until tomorrow the response String is static. Than it will be replaced by the servlet response.
-    private Order getOrderFromService(){
-        String csvString = "-1,Anton,Korenev,Intern,He wants to learn spring";
+    private Order formOrderFromCSV(String csvString){
         String[] values = csvString.split(",");
         return new Order(Integer.valueOf(values[0]),values[1],values[2],values[3],values[4]);
     }
 
-    public void sendOrderForProcessing(){
-        //not sure how is this code block correlated with Spring app logic(Specifically, putting createFile() to
-        // process(File f)).
+    public void sendForProcessing(String csvString){
         try {
-            processor.proccess(getOrderFromService());
+            processor.proccess(formOrderFromCSV(csvString));
         } catch (NullPointerException ex){
             ex.printStackTrace();
         }
