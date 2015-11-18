@@ -12,7 +12,7 @@ public class MapperXMLTest {
         Product product2 = new Product(2,200,"monitor");
         Order testOrder = new Order(-1, "Anton", "Korenev", "buy", product1, product2);
         String responseXml = new MapperXML().convert(testOrder);
-        System.out.println(responseXml);
+
         String expectedXml = "<com.company.spring__application.domain.Order>\n" +
                 "  <id>-1</id>\n" +
                 "  <firstName>Anton</firstName>\n" +

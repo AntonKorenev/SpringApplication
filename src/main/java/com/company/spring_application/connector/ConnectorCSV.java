@@ -20,10 +20,11 @@ public class ConnectorCSV {
 
     private Order formOrderFromCSV(String csvString) throws NullPointerException{
         String[] orderValues = csvString.split(",");
+        //Creating an array for products, the customer ordered
         Product[] productsInOrder = new Product[orderValues.length - 4];
-        if(orderValues.length < 4){
+        if(orderValues.length < 4){//if empty
             throw new NullPointerException("Empty product list");
-        } else{
+        } else{//else splitting products from remaining string
             for(int i = 4; i < orderValues.length; i++){
                 String[] productSplit = orderValues[i].split(" ");
                 productsInOrder[i-4] = new Product(Integer.valueOf(productSplit[0]), Double.valueOf(productSplit[1]),

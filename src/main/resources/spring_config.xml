@@ -60,4 +60,9 @@
           scope="prototype">
     </bean>
 
+    <bean id="product"
+          class="com.company.spring_application.domain.Product"
+          scope="prototype">
+    </bean>
+
 </beans>
