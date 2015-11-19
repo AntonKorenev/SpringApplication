@@ -4,9 +4,7 @@ import com.mockrunner.mock.web.WebMockObjectFactory;
 import com.mockrunner.servlet.ServletTestModule;
 import org.junit.Before;
 import org.junit.Test;
-
 import static junit.framework.TestCase.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class ServletCSVTest {
     private ServletTestModule tester;
