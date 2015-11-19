@@ -25,18 +25,6 @@ public class Product implements Serializable{
         return name;
     }
 
-    public Product changeId(int id){
-        return new Product(id, price, name);
-    }
-
-    public Product changePrice(double price){
-        return new Product(id, price, name);
-    }
-
-    public Product changeName(String name){
-        return new Product(id, price, name);
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Product:");
