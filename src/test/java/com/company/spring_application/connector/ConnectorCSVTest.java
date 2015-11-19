@@ -24,7 +24,7 @@ public class ConnectorCSVTest {
             cArg[0] = String.class;
             Method method = connectorCSV.getClass().getDeclaredMethod("formOrderFromCSV",cArg);
             method.setAccessible(true);
-            order = (Order) method.invoke(connectorCSV, "1,Anton,Korenev,buy,1 1000 tv,2 200 monitor");
+            order = (Order) method.invoke(connectorCSV, "1,Anton,Korenev,buy\n1,1000,tv\n2,200,monitor");
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
