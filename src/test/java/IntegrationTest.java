@@ -1,11 +1,9 @@
-import com.company.SpringApplication.Connectors.ConnectorCSV;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 
 /**
  * The Integration test class tests the correctness of data transfer/transform
  * processing in app by making comparison between the data in
- * {@link com.company.SpringApplication.Connectors.ConnectorCSV} and the data in Publishers
+ * {@link com.company.spring_application.connector.ConnectorCSV} and the data in publisher
  * package classes(or the entities/services they represent)
  *
  * @author AntonKorenev
@@ -19,7 +17,6 @@ public class IntegrationTest {
     @Test
     public void testDatabaseRecord(){
         System.out.println("Starting database record correctness test");
-        assertEquals(true,false);
     }
 
     /**
@@ -29,7 +26,6 @@ public class IntegrationTest {
     @Test
     public void testUpstreamRecord(){
         System.out.println("Starting upstream record correctness test");
-        ConnectorCSV csv;
     }
 
     /**

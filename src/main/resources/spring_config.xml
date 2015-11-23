@@ -5,14 +5,14 @@
 
     <!-- ConnectorCSV bean -->
     <bean id = "connectorCSV"
-          class="com.company.SpringApplication.Connectors.ConnectorCSV"
+          class="com.company.spring_application.connector.ConnectorCSV"
           scope="prototype">
         <constructor-arg ref="processor"/>
     </bean>
 
     <!-- Processor bean -->
     <bean id="processor"
-          class="com.company.SpringApplication.Processors.Processor"
+          class="com.company.spring_application.processor.Processor"
           scope="singleton">
 
         <!-- Constructor injection references -->
@@ -23,7 +23,7 @@
         <!-- MapperJSON inner bean -->
         <property name="mapperJSON">
             <bean id="mapperJSON"
-                  class="com.company.SpringApplication.Mappers.MapperJSON"
+                  class="com.company.spring_application.mapper.MapperJSON"
                   scope="prototype">
             </bean>
         </property>
@@ -31,7 +31,7 @@
         <!-- MapperXML inner bean -->
         <property name="mapperXML">
             <bean id="mapperXML"
-                  class="com.company.SpringApplication.Mappers.MapperXML"
+                  class="com.company.spring_application.mapper.MapperXML"
                   scope="prototype">
             </bean>
         </property>
@@ -39,20 +39,30 @@
 
     <!-- PublisherDashboard bean -->
     <bean id="publisherDashboard"
-          class="com.company.SpringApplication.Publishers.PublisherDashboard"
+          class="com.company.spring_application.publisher.PublisherDashboard"
           scope="singleton">
     </bean>
 
     <!-- PublisherDatabase bean -->
     <bean id="publisherDatabase"
-          class="com.company.SpringApplication.Publishers.PublisherDatabase"
+          class="com.company.spring_application.publisher.PublisherDatabase"
           scope="singleton">
     </bean>
 
     <!-- PublisherUpstream bean -->
     <bean id="publisherUpstream"
-          class="com.company.SpringApplication.Publishers.PublisherUpstream"
+          class="com.company.spring_application.publisher.PublisherUpstream"
           scope="singleton">
+    </bean>
+
+    <bean id="order"
+          class="com.company.spring_application.domain.Order"
+          scope="prototype">
+    </bean>
+
+    <bean id="product"
+          class="com.company.spring_application.domain.Product"
+          scope="prototype">
     </bean>
 
 </beans>
