@@ -60,6 +60,7 @@ dependencies {
 
     compile 'com.thoughtworks.xstream:xstream:1.4.4'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.0.1'
+    compile 'org.json:json:20150729'
 
     runtime group: 'org.springframework', name: 'spring-core', version: '4.2.2.RELEASE'
     runtime 'org.springframework:spring-core:4.2.2.RELEASE',

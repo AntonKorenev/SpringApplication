@@ -1,73 +1,149 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
- <body>
-    <style>
-       .parent {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        overflow: auto;
-       }
-       .form_style {
-        position: absolute;
-        background: #1E90FF;
-        height: 150px;
-        width: 280px;
-        top: 50%;
-        left: 50%;
-        margin: -125px 0 0 -125px;
-        align: center;
-        transform: scale(2,2);
-       }
-       .text_style {
-        position: relative;
-        right: 2px;
-        top: 2px;
-        color: #FFFFFF;
-       }
-       .field_style {
-        position: relative;
-        width: 180px;
-        left: 2px;
-        top: 2px;
-        text-align: center;
-       }
-       .ok_button_style {
-        position: relative;
-        bottom: 4px;
-        left: 240px;
-       }
-    </style>
-    <form name = "myForm" method="post" action="servletcsv">
-        <div class="parent">
-            <div class = "form_style">
-              <p align="center">
-              <table>
-                <tr>
-                    <td class="text_style">First Name: </td>
-                    <td><input class="field_style" type="text" name="fname"></td>
-                </tr>
-                <tr>
-                    <td class="text_style">Last Name: </td>
-                    <td><input class="field_style" type="text" name="lname"></td>
-                </tr>
-                <tr>
-                    <td class="text_style">Task: </td>
-                    <td><input class="field_style" type="text" name="task"></td>
-                </tr>
-                <tr>
-                    <td class="text_style">Orders: </td>
-                    <td><input class="field_style" type="text" name="orders"></td>
-                </tr>
-              </table>
-              </p>
-              <p class="ok_button_style"><input type="submit" value="ok"></p>
-            </div>
-        </div>
-    </form>
- </body>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="css/styles.css"></link>
+	<script language="javascript" type="text/javascript" src="js/addProduct.js"></script>
+	<script language="javascript" type="text/javascript" src="js/showAddForm.js"></script>
+	<script language="javascript" type="text/javascript" src="js/closeAddForm.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script>
+        $(document).ready(function(){
+            $("#submit_button").click(function(){
+                var firstName = $("#fname").val();
+        		var lastName = $("#lname").val();
+        		var taskDescription = $( "#task_select option:selected" ).text();
+        		var positions = $('#product_table tr:has(td)').map(function(i, v) {
+            		var $td =  $('td', this);
+                		return {
+                         	id: ++i,
+                         	id: $td.eq(2).text(),
+                         	price: $td.eq(1).text(),
+                         	name: $td.eq(0).text()
+                       	}
+        		}).get();
+
+        		var postData = {
+        			firstName: firstName
+        			, lastName: lastName
+        			, taskDescription: taskDescription
+        			, products: positions
+        		}
+
+        		$.ajax({
+                    url: 'ServletJSON'
+                    , type: 'POST'
+                    , data: JSON.stringify(postData)
+                    , success: function(res) {
+                        alert(res);
+                    }
+                });
+
+            });
+        });
+	</script>
 </head>
+
+<body>
+	<p>Click on this paragraph.</p>
+	<header>
+		<h1>Check your order details</h1>
+	</header>
+
+	<nav>
+		<ul>
+			<li><a href="index.html">Order</a></li>
+		</ul>
+	</nav>
+
+	<section class="order_section">
+		<h2>Details</h2>
+
+		<article class="order_article">
+			<h2>Order N:</h2>
+			<div name="order_form">
+
+				<p align="center">
+					<table class="contact_table">
+						<tr>
+                    		<td class="contact_text">First Name: </td>
+                    		<td class="contact_input">
+								<input class="contact_input_field" type="text" name="fname" id="fname">
+							</td>
+                		</tr>
+                		<tr>
+                    		<td class="contact_text">Last Name: </td>
+                    		<td class="contact_input">
+								<input class="contact_input_field" type="text" name="lname" id="lname">
+							</td>
+                		</tr>
+                		<tr>
+                    		<td class="contact_text">Action: </td>
+                    		<td class="contact_input">
+								<select id="task_select" class="contact_input_field">
+									<option>buy</option>
+									<option>change</option>
+									<option>service</option>
+								</select>
+							</td>
+                		</tr>
+					</table>
+				</p>
+
+				<div class="product_container">
+					<table class="product_table" id="product_table">
+						<thead>
+						<tr class="product_table_cell">
+							<th class="product_table_cell">Product</th>
+							<th class="product_table_cell">Price</th>
+							<th class="product_table_cell">Id</th>
+						</tr>
+						</thead>
+						<tbody id="product_table_content">
+						</tbody>
+					</table>
+				</div>
+
+				<p class="buttons_panel">
+						<button onclick="showAddForm()">Add</button>
+						<button id="submit_button">Submit</button>
+				</p>
+
+			</div>
+		</article>
+	</section>
+
+	<div id="add pop-up content" class="add_window">
+		<div class="add_window_content">
+			<table>
+				<tr>
+					<td class="order_position_text">Name: </td>
+					<td><input type="text" name="p_name" id="p_name"></td>
+				</tr>
+				<tr>
+					<td class="order_position_text">Price: </td>
+					<td><input type="text" name="p_price" id="p_price"></td>
+				</tr>
+				<tr>
+					<td class="order_position_text">Id: </td>
+					<td><input type="text" name="p_id" id="p_id"></td>
+				</tr>
+			</table>
+			<p>
+				<button onclick="addProduct()">Add</button>
+       			<button onclick="closeAddForm()">Close</button>
+			</p>
+		</div>
+	</div>
+
+	<footer class="page_footer">
+		<address>
+			Written by Anton Korenev.<br>
+			anton.korenev@sigma.software<br>
+			Kiev, Ukraine
+		</address>
+	</footer>
+</body>
+
 </html>
