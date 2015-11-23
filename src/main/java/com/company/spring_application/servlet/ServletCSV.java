@@ -3,13 +3,13 @@ package com.company.spring_application.servlet;
 import com.company.spring_application.connector.ConnectorCSV;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 @WebServlet("/servletcsv")
 public class ServletCSV extends HttpServlet{
@@ -26,7 +26,7 @@ public class ServletCSV extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        PrintWriter printWriter = resp.getWriter();
+        /*PrintWriter printWriter = resp.getWriter();
 
         //getting values from web fields
         String firstName = req.getParameter("fname");
@@ -49,7 +49,7 @@ public class ServletCSV extends HttpServlet{
 
         //writing successful response to web part
         printWriter.print("Order with parameters:\n\t id ="+id+"\n\t"+"First Name = "+firstName+"\n\tLast Name = "
-                +lastName + "\n\t Task ="+task + "\n\t Orders = "+orders + "\n Was Succesfully created");
+                +lastName + "\n\t Task ="+task + "\n\t Orders = "+orders + "\n Was Succesfully created"); */
     }
 
     @Override
