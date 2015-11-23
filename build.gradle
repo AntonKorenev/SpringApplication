@@ -105,7 +105,7 @@ task showTestReportWindows(type:Exec) { //on windows only:
     doFirst {
         try{
             runTest.execute()
-        } catch(GradleException gex){
+        } catch(Exception gex){
             gex.printStackTrace();
             println 'Some tests were not passed'
         }
