@@ -1,9 +1,9 @@
 package com.company.spring_application.servlet;
 
 import com.company.spring_application.connector.ConnectorJSON;
-import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.ApplicationContext;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,11 +18,10 @@ public class ServletJSON extends HttpServlet {
     ConnectorJSON connectorJSON;
 
     @Override
-    public void init() throws ServletException {
-        super.init();
-        AbstractApplicationContext context =
-                new ClassPathXmlApplicationContext("spring_config.xml");
-        connectorJSON = (ConnectorJSON) context.getBean("c");
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        ApplicationContext context = (ApplicationContext) config.getServletContext().getAttribute("spring_config");
+        this.connectorJSON = (ConnectorJSON) context.getBean("connectorJSON");
     }
 
     @Override
@@ -35,7 +34,7 @@ public class ServletJSON extends HttpServlet {
         }
         sb.insert(1,"\"id\":\"1\",");
 
-        //connectorJSON.sendForProcessing(sb.toString());
+        connectorJSON.sendForProcessing(sb.toString());
 
         PrintWriter printWriter = resp.getWriter();
         printWriter.print(sb.toString());
