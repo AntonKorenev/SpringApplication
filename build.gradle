@@ -115,3 +115,5 @@ task showTestReportWindows(type:Exec) { //on windows only:
     workingDir './build/reports/tests'
     commandLine 'cmd', '/c', 'start index.html'
 }
+
+war.baseName = 'spring-application'

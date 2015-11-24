@@ -20,7 +20,7 @@ public class ServletCSV extends HttpServlet{
     public void init() throws ServletException {
         super.init();
         AbstractApplicationContext context =
-                new ClassPathXmlApplicationContext("spring_config.xml");
+                new ClassPathXmlApplicationContext("src/main/webapp/WEB_INF/spring_config.xml");
         connector = (ConnectorCSV) context.getBean("connectorCSV");
     }
 
