@@ -4,11 +4,22 @@ version '1.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'idea'
+apply plugin: 'war'
+apply plugin: 'org.akhikhl.gretty'
 
-mainClassName = "com.company.SpringApplication.Main"
+mainClassName = "com.company.spring_application.Main"
 
 repositories {
     mavenCentral()
+}
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'org.akhikhl.gretty:gretty:+'
+    }
 }
 
 sourceSets {
@@ -32,15 +43,24 @@ sourceSets {
 }
 
 dependencies {
-    testCompile  'junit:junit:4.12'
+    testCompile 'junit:junit:4.12'
+    testCompile 'com.mockrunner:mockrunner-servlet:1.1.0'
 
     compile 'commons-logging:commons-logging:1.2'
 
+    compile 'javax.servlet:javax.servlet-api:3.1.0'
+    compile 'jstl:jstl:1.2'
+
+    compile 'org.springframework:spring-webmvc:4.2.2.RELEASE'
     compile 'org.springframework:spring-context:4.2.2.RELEASE'
     compile 'org.springframework:spring-test:4.2.2.RELEASE'
     compile 'org.springframework:spring-core:4.2.2.RELEASE'
     compile 'org.springframework:spring-beans:4.2.2.RELEASE'
     compile 'org.springframework:spring-expression:4.2.2.RELEASE'
+
+    compile 'com.thoughtworks.xstream:xstream:1.4.4'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.0.1'
+    compile 'org.json:json:20150729'
 
     runtime group: 'org.springframework', name: 'spring-core', version: '4.2.2.RELEASE'
     runtime 'org.springframework:spring-core:4.2.2.RELEASE',
@@ -51,13 +71,10 @@ dependencies {
     )
 }
 
-/**
- * Task runApp runs the Main() class of Application.
- */
-task runApp(type:JavaExec) {
-    description = "Run the app"
-    main = mainClassName
-    classpath = sourceSets.main.runtimeClasspath
+gretty {
+    port = 8080
+    contextPath = '/'
+    servletContainer = 'jetty9'
 }
 
 /**
@@ -75,11 +92,12 @@ task runTest(type: Test) {
  * default system browser (it uses exec commands so that now it's for Windows
  * only).
  */
-task showTestReport(type:Exec) { //on windows only:
+task showTestReportWindows(type:Exec) { //on windows only:
     doFirst {
         try{
             runTest.execute()
-        } catch(GradleException gex){
+        } catch(Exception gex){
+            gex.printStackTrace();
             println 'Some tests were not passed'
         }
     }
@@ -87,3 +105,5 @@ task showTestReport(type:Exec) { //on windows only:
     workingDir './build/reports/tests'
     commandLine 'cmd', '/c', 'start index.html'
 }
+
+war.baseName = 'spring-application'
