@@ -8,38 +8,30 @@ import java.util.List;
 
 public class Order implements Serializable{
     private final int id;
-    private final String firstName;
-    private final String lastName;
+    Client client;
     private final String taskDescription;
     private List products;
 
-    public Order(int id, String firstName, String lastName, String taskDescription, Product... products) {
+    public Order(int id, Client client, String taskDescription, Product... products) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.client = client;
         this.products = Collections.unmodifiableList(new LinkedList<>(Arrays.asList(products)));
         this.taskDescription = taskDescription;
     }
 
-    public Order(int id, String firstName, String lastName, String taskDescription,
-                 List<Product> products) {
+    public Order(int id, Client client, String taskDescription, List products) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.client = client;
         this.taskDescription = taskDescription;
-        this.products = Collections.unmodifiableList(products);
+        this.products = products;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
+    public Client getClient() {
+        return client;
     }
 
     public List<Product> getProducts() {
@@ -54,8 +46,8 @@ public class Order implements Serializable{
     public String toString() {
         StringBuilder sb = new StringBuilder("Order:");
         sb.append("\nid=").append(id)
-                .append("\nfirst name=").append(firstName)
-                .append("\nlast name='").append(lastName)
+                .append("\nfirst name=").append(client.getFirstName())
+                .append("\nlast name='").append(client.getLastName())
                 .append("\ntask'").append(taskDescription);
         products.forEach((p) -> sb.append("\t").append(p.toString()).append("\n"));
         return sb.toString();
