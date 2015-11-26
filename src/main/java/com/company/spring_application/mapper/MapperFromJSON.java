@@ -1,5 +1,6 @@
-package com.company.spring_application.connector;
+package com.company.spring_application.mapper;
 
+import com.company.spring_application.domain.Client;
 import com.company.spring_application.domain.Order;
 import com.company.spring_application.domain.Product;
 import com.company.spring_application.processor.Processor;
@@ -8,10 +9,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.LinkedList;
 
-public class ConnectorJSON {
+public class MapperFromJSON {
     private Processor processor;
 
-    public ConnectorJSON(Processor processor){
+    public MapperFromJSON(Processor processor){
         this.processor = processor;
     }
 
@@ -32,7 +33,7 @@ public class ConnectorJSON {
         String lastName = orderJson.getString("lastName");
         String taskDecription = orderJson.getString("taskDescription");
 
-        return new Order(id, firstName, lastName, taskDecription, products);
+        return new Order(id, new Client(firstName, lastName), taskDecription, products);
     }
 
     public void sendForProcessing(String jsonString){

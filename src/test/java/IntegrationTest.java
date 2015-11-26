@@ -1,9 +1,10 @@
+import com.company.spring_application.mapper.MapperFromCSV;
 import org.junit.Test;
 
 /**
  * The Integration test class tests the correctness of data transfer/transform
  * processing in app by making comparison between the data in
- * {@link com.company.spring_application.connector.ConnectorCSV} and the data in publisher
+ * {@link MapperFromCSV} and the data in publisher
  * package classes(or the entities/services they represent)
  *
  * @author AntonKorenev

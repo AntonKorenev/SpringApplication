@@ -1,20 +1,21 @@
-package com.company.spring_application.connector;
+package com.company.spring_application.mapper;
 
+import com.company.spring_application.domain.Client;
 import com.company.spring_application.domain.Product;
 import com.company.spring_application.processor.Processor;
 import com.company.spring_application.domain.Order;
 
 /**
- * <p>The ConnectorCSV class is responsible for getting date from service in CSV format
+ * <p>The MapperFromCSV class is responsible for getting date from service in CSV format
  * and then sending it to {@link Processor} for further processing.</p>
  *
  * @author AntonKorenev
  * @version 0.1
  */
-public class ConnectorCSV {
+public class MapperFromCSV {
     private Processor processor;
 
-    public ConnectorCSV(Processor processor){
+    public MapperFromCSV(Processor processor){
         this.processor = processor;
     }
 
@@ -26,7 +27,7 @@ public class ConnectorCSV {
            String[] ps = orderAndProductsString[i].split(",");
            products[i-1] = new Product(Integer.valueOf(ps[0]),Double.valueOf(ps[1]),ps[2]);
        }
-       return new Order(Integer.valueOf(os[0]),os[1],os[2],os[3],products);
+       return new Order(Integer.valueOf(os[0]), new Client(os[1],os[2]), os[3], products);
     }
 
     public void sendForProcessing(String csvString){

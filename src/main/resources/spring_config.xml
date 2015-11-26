@@ -3,16 +3,16 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id= "connectorJSON"
-          class="com.company.spring_application.connector.ConnectorJSON"
+    <bean id= "mapperFromJSON"
+          class="com.company.spring_application.mapper.MapperFromJSON"
           scope="prototype">
         <constructor-arg ref="processor"/>
     </bean>
 
 
-    <!-- ConnectorCSV bean -->
-    <bean id = "connectorCSV"
-          class="com.company.spring_application.connector.ConnectorCSV"
+    <!-- MapperFromCSV bean -->
+    <bean id = "mapperFromCSV"
+          class="com.company.spring_application.mapper.MapperFromCSV"
           scope="prototype">
         <constructor-arg ref="processor"/>
     </bean>
