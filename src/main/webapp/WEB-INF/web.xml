@@ -16,6 +16,17 @@
         <url-pattern>/ServletJSON</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <description></description>
+        <display-name>ServletCSV</display-name>
+        <servlet-name>ServletCSV</servlet-name>
+        <servlet-class>com.company.spring_application.servlet.ServletCSV</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServletCSV</servlet-name>
+        <url-pattern>/ServletCSV</url-pattern>
+    </servlet-mapping>
+
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>classpath:spring_config.xml</param-value>

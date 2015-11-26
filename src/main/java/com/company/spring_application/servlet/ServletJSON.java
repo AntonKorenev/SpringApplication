@@ -1,6 +1,6 @@
 package com.company.spring_application.servlet;
 
-import com.company.spring_application.connector.ConnectorJSON;
+import com.company.spring_application.mapper.MapperFromJSON;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import javax.servlet.ServletConfig;
@@ -13,13 +13,13 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 public class ServletJSON extends HttpServlet {
-    ConnectorJSON connectorJSON;
+    MapperFromJSON mapperFromJSON;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(config.getServletContext());
-        this.connectorJSON = (ConnectorJSON) ctx.getBean("connectorJSON");
+        this.mapperFromJSON = (MapperFromJSON) ctx.getBean("mapperFromJSON");
     }
 
     @Override
@@ -32,7 +32,7 @@ public class ServletJSON extends HttpServlet {
         }
         sb.insert(1,"\"id\":\"1\",");
 
-        connectorJSON.sendForProcessing(sb.toString());
+        mapperFromJSON.sendForProcessing(sb.toString());
 
         PrintWriter printWriter = resp.getWriter();
         printWriter.print(sb.toString());

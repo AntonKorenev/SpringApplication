@@ -1,59 +1,39 @@
 package com.company.spring_application.servlet;
 
-import com.company.spring_application.connector.ConnectorCSV;
-import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
+import com.company.spring_application.mapper.MapperFromCSV;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 
-@WebServlet("/servletcsv")
 public class ServletCSV extends HttpServlet{
-    ConnectorCSV connector;
-    private static int id = 0;
+    MapperFromCSV mapperFromCSV;
 
     @Override
-    public void init() throws ServletException {
-        super.init();
-        AbstractApplicationContext context =
-                new ClassPathXmlApplicationContext("src/main/webapp/WEB_INF/spring_config.xml");
-        connector = (ConnectorCSV) context.getBean("connectorCSV");
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(config.getServletContext());
+        this.mapperFromCSV = (MapperFromCSV) ctx.getBean("mapperFromCSV");
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        /*PrintWriter printWriter = resp.getWriter();
-
-        //getting values from web fields
-        String firstName = req.getParameter("fname");
-        String lastName = req.getParameter("lname");
-        String task = req.getParameter("task");
-        String orders = req.getParameter("orders");
-
-        if(!firstName.isEmpty() && !lastName.isEmpty() && !orders.isEmpty() && !task.isEmpty()){
-            resp.setStatus(200);
-        } else {
-            resp.setStatus(405);
+        StringBuilder sb = new StringBuilder();
+        BufferedReader br = req.getReader();
+        String str;
+        while( (str = br.readLine()) != null ){
+            sb.append(str);
         }
 
-        //creating csv string
-        StringBuilder csvStringBuilder = new StringBuilder();
-        csvStringBuilder.append(id).append(',').append(firstName).append(',').append(lastName).append(',').append(task)
-                .append(',').append(orders);
-        connector.sendForProcessing(csvStringBuilder.toString());
-        id++;
+        mapperFromCSV.sendForProcessing(sb.toString());
 
-        //writing successful response to web part
-        printWriter.print("Order with parameters:\n\t id ="+id+"\n\t"+"First Name = "+firstName+"\n\tLast Name = "
-                +lastName + "\n\t Task ="+task + "\n\t Orders = "+orders + "\n Was Succesfully created"); */
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        PrintWriter printWriter = resp.getWriter();
+        printWriter.print(sb.toString());
     }
 }
