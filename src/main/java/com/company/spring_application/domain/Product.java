@@ -30,7 +30,7 @@ public class Product implements Serializable{
         StringBuilder sb = new StringBuilder("Product:");
         sb.append("\nid=").append(id)
                 .append("\nprice=").append(price)
-                .append("\nname='").append(name);
+                .append("\nname=").append(name);
         return sb.toString();
     }
 }
