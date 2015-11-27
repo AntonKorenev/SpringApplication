@@ -10,7 +10,7 @@ public class Order implements Serializable{
     private final int id;
     Client client;
     private final String taskDescription;
-    private List products;
+    private List<Product> products;
 
     public Order(int id, Client client, String taskDescription, Product... products) {
         this.id = id;
@@ -47,8 +47,8 @@ public class Order implements Serializable{
         StringBuilder sb = new StringBuilder("Order:");
         sb.append("\nid=").append(id)
                 .append("\nfirst name=").append(client.getFirstName())
-                .append("\nlast name='").append(client.getLastName())
-                .append("\ntask'").append(taskDescription);
+                .append("\nlast name=").append(client.getLastName())
+                .append("\ntask=").append(taskDescription);
         products.forEach((p) -> sb.append("\t").append(p.toString()).append("\n"));
         return sb.toString();
     }
