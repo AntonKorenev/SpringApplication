@@ -1,8 +1,5 @@
 package com.company.spring_application.domain;
 
-/**
- * Created by anton.korenev on 11/26/2015.
- */
 public class Client {
     private final String firstName;
     private final String lastName;
@@ -24,7 +21,7 @@ public class Client {
     public String toString() {
         StringBuilder sb = new StringBuilder("Client:");
         sb.append("\nfirst name=").append(firstName)
-                .append("\nlast name='").append(lastName);
+                .append("\nlast name=").append(lastName);
         return sb.toString();
     }
 }
