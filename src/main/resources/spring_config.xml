@@ -92,6 +92,8 @@
     </bean>
 
     <!-- Database part -->
+
+    <!-- jdbc template -->
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
@@ -118,4 +120,32 @@
         <property name="productDAO" ref="productDao"/>
     </bean>
 
+    <!-- Hibernate -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="annotatedClasses">
+            <list>
+                <value>com.company.spring_application.domain.Client</value>
+                <value>com.company.spring_application.domain.Product</value>
+                <value>com.company.spring_application.domain.Order</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <value>
+                hibernate.dialect=org.hibernate.dialect.MySQLDialect
+            </value>
+        </property>
+    </bean>
+
+    <bean id="clientHibernateDao" class="com.company.spring_application.hibernate.ClientDAO">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="productHibernateDao" class="com.company.spring_application.hibernate.ProductDAO">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="orderHibernateDao" class="com.company.spring_application.hibernate.OrderDAO">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 </beans>

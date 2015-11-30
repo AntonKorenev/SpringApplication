@@ -1,10 +1,19 @@
 package com.company.spring_application.domain;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
+@Entity(name = "products")
 public class Product implements Serializable{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private final int id;
+
+    @Column(name = "price")
     private final double price;
+
+    @Column(name = "name")
     private final String name;
 
     public Product(int id, double price, String name) {
