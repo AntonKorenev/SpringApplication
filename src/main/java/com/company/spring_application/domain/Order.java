@@ -1,16 +1,42 @@
 package com.company.spring_application.domain;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+@Entity(name = "orders")
 public class Order implements Serializable{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int inDatabaseId;
+
+    @Column(name = "order_number")
     private final int id;
-    Client client;
+
+    @Embedded
+    @OneToOne
+    @JoinTable(
+            name="clients",
+            joinColumns = @JoinColumn( name="client_id"),
+            inverseJoinColumns = @JoinColumn( name="id")
+    )
+    private final Client client;
+
+    @Column(name = "task")
     private final String taskDescription;
-    private List products;
+
+    @Embedded
+    @OneToMany
+    @JoinTable(
+            name="products",
+            joinColumns = @JoinColumn( name="product_id"),
+            inverseJoinColumns = @JoinColumn( name="id")
+    )
+    private List<Product> products;
 
     public Order(int id, Client client, String taskDescription, Product... products) {
         this.id = id;
@@ -24,6 +50,14 @@ public class Order implements Serializable{
         this.client = client;
         this.taskDescription = taskDescription;
         this.products = products;
+    }
+
+    public void setInDatabaseId(int databaseId) {
+        this.inDatabaseId = databaseId;
+    }
+
+    public int getInDatabaseId() {
+        return inDatabaseId;
     }
 
     public int getId() {
@@ -47,8 +81,8 @@ public class Order implements Serializable{
         StringBuilder sb = new StringBuilder("Order:");
         sb.append("\nid=").append(id)
                 .append("\nfirst name=").append(client.getFirstName())
-                .append("\nlast name='").append(client.getLastName())
-                .append("\ntask'").append(taskDescription);
+                .append("\nlast name=").append(client.getLastName())
+                .append("\ntask=").append(taskDescription);
         products.forEach((p) -> sb.append("\t").append(p.toString()).append("\n"));
         return sb.toString();
     }

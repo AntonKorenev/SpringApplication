@@ -66,11 +66,86 @@
     <bean id="order"
           class="com.company.spring_application.domain.Order"
           scope="prototype">
+        <constructor-arg value="10"/>
+        <constructor-arg ref="client"/>
+        <constructor-arg value="buy"/>
+        <constructor-arg>
+            <list>
+                <ref bean="product"/>
+            </list>
+        </constructor-arg>
     </bean>
 
     <bean id="product"
           class="com.company.spring_application.domain.Product"
           scope="prototype">
+        <constructor-arg value="10"/>
+        <constructor-arg value="1000"/>
+        <constructor-arg value="repeater"/>
     </bean>
 
+    <bean id="client"
+          class="com.company.spring_application.domain.Client"
+          scope="prototype">
+        <constructor-arg value="Aki"/>
+        <constructor-arg value="Nomi"/>
+    </bean>
+
+    <!-- Database part -->
+
+    <!-- jdbc template -->
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/spring_application"/>
+        <property name="username" value="root"/>
+        <property name="password" value="Dyabel1973"/>
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="clientDao" class="com.company.spring_application.dao.ClientDAO">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+
+    <bean id="productDao" class="com.company.spring_application.dao.ProductDAO">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+    </bean>
+
+    <bean id="orderDao" class="com.company.spring_application.dao.OrderDAO">
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
+        <property name="clientDAO" ref="clientDao"/>
+        <property name="productDAO" ref="productDao"/>
+    </bean>
+
+    <!-- Hibernate -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="annotatedClasses">
+            <list>
+                <value>com.company.spring_application.domain.Client</value>
+                <value>com.company.spring_application.domain.Product</value>
+                <value>com.company.spring_application.domain.Order</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <value>
+                hibernate.dialect=org.hibernate.dialect.MySQLDialect
+            </value>
+        </property>
+    </bean>
+
+    <bean id="clientHibernateDao" class="com.company.spring_application.hibernate.ClientDAO">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="productHibernateDao" class="com.company.spring_application.hibernate.ProductDAO">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="orderHibernateDao" class="com.company.spring_application.hibernate.OrderDAO">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 </beans>

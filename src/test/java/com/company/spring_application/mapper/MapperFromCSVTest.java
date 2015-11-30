@@ -3,8 +3,12 @@ package com.company.spring_application.mapper;
 import com.company.spring_application.domain.Order;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -12,14 +16,17 @@ import java.lang.reflect.Method;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-
+@RunWith(SpringJUnit4ClassRunner.class)
+@WebAppConfiguration("classpath:web.xml")
+@ContextConfiguration("classpath:spring_config.xml")
 public class MapperFromCSVTest {
+    @Autowired
+    WebApplicationContext context;
+
     Order order;
 
     @Before
     public void init(){
-        AbstractApplicationContext context =
-                new ClassPathXmlApplicationContext("src/main/webapp/WEB_INF/spring_config.xml");
         MapperFromCSV mapperFromCSV = (MapperFromCSV) context.getBean("mapperFromCSV");
         try {
             Class[] cArg = new Class[1];
@@ -41,8 +48,8 @@ public class MapperFromCSVTest {
     @Test
     public void orderObjectWasFormedProperly(){
         assertTrue(1 == order.getId());
-        assertEquals("Anton", order.getFirstName());
-        assertEquals("Korenev", order.getLastName());
+        assertEquals("Anton", order.getClient().getFirstName());
+        assertEquals("Korenev", order.getClient().getLastName());
         assertEquals("buy", order.getTaskDescription());
         assertTrue(order.getProducts().get(0).getId() == 1);
     }

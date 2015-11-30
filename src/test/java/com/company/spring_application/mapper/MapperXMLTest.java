@@ -1,5 +1,6 @@
 package com.company.spring_application.mapper;
 
+import com.company.spring_application.domain.Client;
 import com.company.spring_application.domain.Order;
 import com.company.spring_application.domain.Product;
 import org.junit.Test;
@@ -11,7 +12,7 @@ public class MapperXMLTest {
     public void conversionOfFileToXMLWasSuccessful() {
         Product product1 = new Product(1,1000,"tv");
         Product product2 = new Product(2,200,"monitor");
-        Order testOrder = new Order(-1, "Anton", "Korenev", "buy", product1, product2);
+        Order testOrder = new Order(-1, new Client("Anton","Korenev"), "buy", product1, product2);
         String responseXml = new MapperXML().convert(testOrder);
         String expectedXml = "<com.company.spring__application.domain.Order>\n" +
                 "  <id>-1</id>\n" +
