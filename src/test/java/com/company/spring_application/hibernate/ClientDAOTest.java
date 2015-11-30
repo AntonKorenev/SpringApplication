@@ -1,6 +1,5 @@
 package com.company.spring_application.hibernate;
 
-import com.company.spring_application.domain.Client;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,6 +27,9 @@ public class ClientDAOTest {
 
     @Test
     public void testSaveClient() throws Exception {
-        dao.saveClient((Client)context.getBean("client"));
+        //dao.saveClient((Client)context.getBean("client"));
+        //System.out.println(dao.getClient(1));
+        //System.out.println(dao.getAll());
+        dao.deleteClient(6);
     }
 }

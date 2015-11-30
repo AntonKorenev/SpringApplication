@@ -20,6 +20,11 @@ public class Client {
         this.lastName = lastName;
     }
 
+    public Client() {
+        firstName = "Anton";
+        lastName = "Korenev";
+    }
+
     public int getId() {
         return id;
     }

@@ -1,6 +1,5 @@
 package com.company.spring_application.hibernate;
 
-import com.company.spring_application.domain.Product;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +26,8 @@ public class ProductDAOTest {
 
     @Test
     public void testSaveProduct() throws Exception {
-        dao.saveProduct((Product)context.getBean("product"));
+       // dao.saveProduct((Product)context.getBean("product"));
+        //System.out.println(dao.getProduct(1));
+        System.out.println(dao.getAll());
     }
 }

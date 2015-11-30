@@ -27,7 +27,13 @@ public class OrderDAOTest {
 
 
     @Test
-    public void testSaveClient() throws Exception {
-        dao.saveOrder((Order)context.getBean("order"));
+    public void testSaveOrder() throws Exception {
+        com.company.spring_application.dao.ClientDAO clientDAO = (com.company.spring_application.dao.ClientDAO) context.getBean("clientDao");
+        com.company.spring_application.dao.ProductDAO productDAO = (com.company.spring_application.dao.ProductDAO) context.getBean("productDao");
+        Order order = new Order(10,clientDAO.getById(3),"rent",productDAO.getById(3));
+
+        dao.saveOrder(order);
+        //System.out.println(dao.getAll());
+        //System.out.println(dao.getOrder(3));
     }
 }

@@ -40,7 +40,7 @@ public class OrderDAOTest {
         products.add(new Product(1,1000,"router"));
         products.add(new Product(11,2345,"PC"));
         dao.saveOrder(new Order(12,new Client("Somebody","Something"),"buy",products));
-        System.out.println(dao.getAll());
+        //System.out.println(dao.getAll());
     }
 
     @Test

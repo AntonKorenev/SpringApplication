@@ -22,6 +22,12 @@ public class Product implements Serializable{
         this.name = name;
     }
 
+    public Product() {
+        price = 0;
+        id = 0;
+        name = "nothing";
+    }
+
     public int getId() {
         return id;
     }
