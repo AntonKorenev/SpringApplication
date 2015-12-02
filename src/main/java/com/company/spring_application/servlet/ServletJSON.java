@@ -27,10 +27,10 @@ public class ServletJSON extends HttpServlet {
         StringBuilder sb = new StringBuilder();
         BufferedReader br = req.getReader();
         String str;
-        while( (str = br.readLine()) != null ){
+        while ((str = br.readLine()) != null) {
             sb.append(str);
         }
-        sb.insert(1,"\"id\":\"1\",");
+        sb.insert(1, "\"id\":\"1\",");
 
         mapperFromJSON.sendForProcessing(sb.toString());
 

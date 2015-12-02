@@ -21,7 +21,7 @@ public class DatabaseUtil {
         this.dataSource = dataSource;
     }
 
-    public void initialize(){
+    public void initialize() {
         DataSource dataSource = getDataSource();
         try {
             Connection connection = dataSource.getConnection();

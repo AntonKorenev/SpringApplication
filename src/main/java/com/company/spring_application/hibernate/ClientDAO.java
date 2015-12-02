@@ -9,12 +9,12 @@ import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
 
-public class ClientDAO  extends AbstractSessionHolder implements HibernateDAOInterface<Client> {
+public class ClientDAO extends AbstractSessionHolder implements HibernateDAOInterface<Client> {
     @Override
     public void delete(int id) {
         Client deleting = get(id);
-        Session session=getSessionFactory().openSession();
-        Transaction t=session.beginTransaction();
+        Session session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         session.delete(deleting);
         t.commit();
         session.close();
@@ -22,8 +22,8 @@ public class ClientDAO  extends AbstractSessionHolder implements HibernateDAOInt
 
     @Override
     public void save(Client saving) {
-        Session session=getSessionFactory().openSession();
-        Transaction t=session.beginTransaction();
+        Session session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         session.save(saving);
         t.commit();
         session.close();
@@ -31,9 +31,9 @@ public class ClientDAO  extends AbstractSessionHolder implements HibernateDAOInt
 
     @Override
     public Client get(int id) {
-        return (Client)getSessionFactory().openSession()
+        return (Client) getSessionFactory().openSession()
                 .createCriteria(Client.class)
-                .add(Restrictions.eq("id",id))
+                .add(Restrictions.eq("id", id))
                 .uniqueResult();
     }
 

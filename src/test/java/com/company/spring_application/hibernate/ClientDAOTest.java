@@ -25,29 +25,29 @@ public class ClientDAOTest {
     WebApplicationContext context;
 
     @Before
-    public void init(){
-        dao=(ClientDAO) context.getBean("clientHibernateDao");
-        ethalonClient = (Client)context.getBean("client");
+    public void init() {
+        dao = (ClientDAO) context.getBean("clientHibernateDao");
+        ethalonClient = (Client) context.getBean("client");
     }
 
     @Test
-    public void aSavingWasSuccessful(){
+    public void aSavingWasSuccessful() {
         dao.save(ethalonClient);
         Client client = dao.get(1);
-        Assert.assertEquals(client.getFirstName(),ethalonClient.getFirstName());
-        Assert.assertEquals(client.getLastName(),ethalonClient.getLastName());
+        Assert.assertEquals(client.getFirstName(), ethalonClient.getFirstName());
+        Assert.assertEquals(client.getLastName(), ethalonClient.getLastName());
     }
 
     @Test
-    public void bGettingAllWasSuccesful(){
+    public void bGettingAllWasSuccesful() {
         Client client = dao.getAll().get(0);
 
-        Assert.assertEquals(client.getFirstName(),ethalonClient.getFirstName());
-        Assert.assertEquals(client.getLastName(),ethalonClient.getLastName());
+        Assert.assertEquals(client.getFirstName(), ethalonClient.getFirstName());
+        Assert.assertEquals(client.getLastName(), ethalonClient.getLastName());
     }
 
     @Test
-    public void cDeletingWasSuccesful(){
+    public void cDeletingWasSuccesful() {
         dao.delete(1);
         Assert.assertNull(dao.get(1));
     }

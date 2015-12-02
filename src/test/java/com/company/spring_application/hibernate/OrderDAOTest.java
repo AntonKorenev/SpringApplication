@@ -28,8 +28,8 @@ public class OrderDAOTest {
     WebApplicationContext context;
 
     @Before
-    public void init(){
-        dao=(OrderDAO) context.getBean("orderHibernateDao");
+    public void init() {
+        dao = (OrderDAO) context.getBean("orderHibernateDao");
     }
 
     @Test
@@ -38,7 +38,7 @@ public class OrderDAOTest {
         Product product = new Product();
         Client client = new Client();
         list.add(product);
-        Order order = new Order(new Client(),"buy",list);
+        Order order = new Order(new Client(), "buy", list);
         product.setOrder(order);
         client.setOrder(order);
         dao.save(order);

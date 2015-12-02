@@ -11,7 +11,7 @@ import java.util.List;
 @Entity(name = "orders")
 public class Order implements DOInterface {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -21,7 +21,7 @@ public class Order implements DOInterface {
     @Column(name = "task")
     private final String taskDescription;
 
-    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "order")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "order")
     private List<Product> products;
 
     public Order(Client client, String taskDescription, Product... products) {
@@ -40,12 +40,13 @@ public class Order implements DOInterface {
         List<Product> prs = new LinkedList<>();
         prs.add(new Product());
         products = Collections.unmodifiableList(prs);
-        taskDescription="buy";
+        taskDescription = "buy";
     }
 
     public void setId(int id) {
         this.id = id;
     }
+
     public int getId() {
         return id;
     }
@@ -53,6 +54,7 @@ public class Order implements DOInterface {
     public void setClient(Client client) {
         this.client = client;
     }
+
     public Client getClient() {
         return client;
     }

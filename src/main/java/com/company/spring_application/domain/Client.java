@@ -11,13 +11,13 @@ public class Client implements DOInterface {
     @Column(name = "id")
     private int id;
 
-    @Column(name="first_name")
+    @Column(name = "first_name")
     private final String firstName;
 
-    @Column(name="last_name")
+    @Column(name = "last_name")
     private final String lastName;
 
-    @OneToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "client")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "client")
     private Order order;
 
     public Client(String firstName, String lastName) {
@@ -33,6 +33,7 @@ public class Client implements DOInterface {
     public Order getOrder() {
         return order;
     }
+
     public void setOrder(Order order) {
         this.order = order;
     }
@@ -40,6 +41,7 @@ public class Client implements DOInterface {
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }

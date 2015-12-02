@@ -3,6 +3,7 @@ package com.company.spring_application.servlet;
 import com.company.spring_application.mapper.MapperFromCSV;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,7 +13,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-public class ServletCSV extends HttpServlet{
+public class ServletCSV extends HttpServlet {
     MapperFromCSV mapperFromCSV;
 
     @Override
@@ -27,7 +28,7 @@ public class ServletCSV extends HttpServlet{
         StringBuilder sb = new StringBuilder();
         BufferedReader br = req.getReader();
         String str;
-        while( (str = br.readLine()) != null ){
+        while ((str = br.readLine()) != null) {
             sb.append(str);
         }
 

@@ -6,14 +6,15 @@ import com.company.spring_application.domain.Order;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+
 import java.util.List;
 
 public class OrderDAO extends AbstractSessionHolder implements HibernateDAOInterface<Order> {
     @Override
     public void delete(int id) {
         Order deleting = get(id);
-        Session session=getSessionFactory().openSession();
-        Transaction t=session.beginTransaction();
+        Session session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         session.delete(deleting);
         t.commit();
         session.close();
@@ -21,8 +22,8 @@ public class OrderDAO extends AbstractSessionHolder implements HibernateDAOInter
 
     @Override
     public void save(Order saving) {
-        Session session=getSessionFactory().openSession();
-        Transaction t=session.beginTransaction();
+        Session session = getSessionFactory().openSession();
+        Transaction t = session.beginTransaction();
         session.save(saving);
         t.commit();
         session.close();
@@ -31,8 +32,8 @@ public class OrderDAO extends AbstractSessionHolder implements HibernateDAOInter
     @Override
     public Order get(int id) {
         Session session = getSessionFactory().openSession();
-        Order order = (Order)session.createCriteria(Order.class)
-                .add(Restrictions.eq("id",id))
+        Order order = (Order) session.createCriteria(Order.class)
+                .add(Restrictions.eq("id", id))
                 .uniqueResult();
         session.close();
         return order;

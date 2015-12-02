@@ -8,6 +8,7 @@ public abstract class AbstractJdbcTemplateHolder {
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
     public JdbcTemplate getJdbcTemplate() {
         return jdbcTemplate;
     }

@@ -8,6 +8,7 @@ public abstract class AbstractSessionHolder {
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
+
     public SessionFactory getSessionFactory() {
         return sessionFactory;
     }

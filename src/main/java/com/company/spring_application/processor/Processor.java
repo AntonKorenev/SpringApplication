@@ -25,7 +25,7 @@ public class Processor {
 
     public Processor(PublisherDashboard publisherDashboard,
                      PublisherDatabase publisherDatabase,
-                     PublisherUpstream publisherUpstream){
+                     PublisherUpstream publisherUpstream) {
         this.publisherDashboard = publisherDashboard;
         this.publisherDatabase = publisherDatabase;
         this.publisherUpstream = publisherUpstream;
@@ -47,7 +47,7 @@ public class Processor {
         this.mapperXML = mapperXML;
     }
 
-    public void proccess(Order processingOrder){
+    public void proccess(Order processingOrder) {
 
     }
 }

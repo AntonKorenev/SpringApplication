@@ -12,7 +12,7 @@ import com.thoughtworks.xstream.XStream;
  * @version 0.1
  */
 public class MapperXML {
-    public String convert(Order order){
+    public String convert(Order order) {
         XStream xs = new XStream();
         String xml = xs.toXML(order);
         return xml;

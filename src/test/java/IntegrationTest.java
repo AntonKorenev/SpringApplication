@@ -16,7 +16,7 @@ public class IntegrationTest {
      * in connector
      */
     @Test
-    public void testDatabaseRecord(){
+    public void testDatabaseRecord() {
         System.out.println("Starting database record correctness test");
     }
 
@@ -25,7 +25,7 @@ public class IntegrationTest {
      * in connector
      */
     @Test
-    public void testUpstreamRecord(){
+    public void testUpstreamRecord() {
         System.out.println("Starting upstream record correctness test");
     }
 
@@ -34,7 +34,7 @@ public class IntegrationTest {
      * in connector
      */
     @Test
-    public void testDashboardRecord(){
+    public void testDashboardRecord() {
         System.out.println("Starting dashboard record correctness test");
     }
 }

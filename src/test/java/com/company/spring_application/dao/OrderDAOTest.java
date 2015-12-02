@@ -26,7 +26,7 @@ public class OrderDAOTest {
 
     @Before
     public void init() throws Exception {
-        dao=(OrderDAO)context.getBean("orderDao");
+        dao = (OrderDAO) context.getBean("orderDao");
     }
 
     @Test
@@ -40,7 +40,7 @@ public class OrderDAOTest {
         Product product = new Product();
         Client client = new Client();
         list.add(product);
-        Order order = new Order(new Client(),"buy",list);
+        Order order = new Order(new Client(), "buy", list);
         product.setOrder(order);
         client.setOrder(order);
         dao.saveOrder(order);

@@ -21,8 +21,8 @@ public class ClientDAOTest {
     WebApplicationContext context;
 
     @Before
-    public void init(){
-        dao=(ClientDAO)context.getBean("clientDao");
+    public void init() {
+        dao = (ClientDAO) context.getBean("clientDao");
     }
 
     @Test
@@ -31,29 +31,29 @@ public class ClientDAOTest {
     }
 
     @Test
-    public void savingToDatabaseWasSuccessful(){
-        System.out.println(dao.save(new Client("Somebody","Something")));
+    public void savingToDatabaseWasSuccessful() {
+        System.out.println(dao.save(new Client("Somebody", "Something")));
     }
 
     @Test
-    public void gettingObjectByNameWasSuccessful(){
+    public void gettingObjectByNameWasSuccessful() {
         System.out.println(dao.getByName("Aki"));
     }
 
     @Test
-    public void gettingIdByClientWasSuccessful(){
-        System.out.println(dao.getIdByClient(new Client("Aki","Nomi")));
+    public void gettingIdByClientWasSuccessful() {
+        System.out.println(dao.getIdByClient(new Client("Aki", "Nomi")));
     }
 
     @Test
-    public void objectUpdatingWasSuccessful(){
-        dao.updateClient(new Client("Ivar","Stark"),2);
+    public void objectUpdatingWasSuccessful() {
+        dao.updateClient(new Client("Ivar", "Stark"), 2);
         System.out.println(dao.getAll());
     }
 
     @Test
-    public void deletingFromDatabaseWasSuccessful(){
-        dao.deleteClient(new Client("Somebody","Something"));
+    public void deletingFromDatabaseWasSuccessful() {
+        dao.deleteClient(new Client("Somebody", "Something"));
         System.out.println(dao.getAll());
     }
 }

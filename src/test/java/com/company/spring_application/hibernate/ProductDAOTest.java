@@ -25,29 +25,29 @@ public class ProductDAOTest {
     WebApplicationContext context;
 
     @Before
-    public void init(){
-        dao=(ProductDAO) context.getBean("productHibernateDao");
+    public void init() {
+        dao = (ProductDAO) context.getBean("productHibernateDao");
         ethalonProduct = (Product) context.getBean("product");
     }
 
     @Test
-    public void aSavingWasSuccessful(){
+    public void aSavingWasSuccessful() {
         dao.save(ethalonProduct);
         Product product = dao.get(1);
-        Assert.assertEquals(product.getPrice(),ethalonProduct.getPrice());
-        Assert.assertEquals(product.getName(),ethalonProduct.getName());
+        Assert.assertEquals(product.getPrice(), ethalonProduct.getPrice());
+        Assert.assertEquals(product.getName(), ethalonProduct.getName());
     }
 
     @Test
-    public void bGettingAllWasSuccesful(){
+    public void bGettingAllWasSuccesful() {
         Product product = dao.getAll().get(0);
 
-        Assert.assertEquals(product.getPrice(),ethalonProduct.getPrice());
-        Assert.assertEquals(product.getName(),ethalonProduct.getName());
+        Assert.assertEquals(product.getPrice(), ethalonProduct.getPrice());
+        Assert.assertEquals(product.getName(), ethalonProduct.getName());
     }
 
     @Test
-    public void cDeletingWasSuccesful(){
+    public void cDeletingWasSuccesful() {
         dao.delete(1);
         Assert.assertNull(dao.get(1));
     }

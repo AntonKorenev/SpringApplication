@@ -21,8 +21,8 @@ public class ProductDAOTest {
     WebApplicationContext context;
 
     @Before
-    public void init(){
-        dao=(ProductDAO) context.getBean("productDao");
+    public void init() {
+        dao = (ProductDAO) context.getBean("productDao");
     }
 
     @Test
@@ -31,24 +31,24 @@ public class ProductDAOTest {
     }
 
     @Test
-    public void productSavingToDatabaseWasSuccessful(){
-        System.out.println(dao.save(new Product(10,100500,"Something")));
+    public void productSavingToDatabaseWasSuccessful() {
+        System.out.println(dao.save(new Product(10, 100500, "Something")));
     }
 
     @Test
-    public void productGetingByNameWasSuccessful(){
+    public void productGetingByNameWasSuccessful() {
         System.out.println(dao.getById(10));
     }
 
     @Test
-    public void productUpdatingWasSuccessful(){
-        dao.updateClient(new Product(10,100500,"Some"));
+    public void productUpdatingWasSuccessful() {
+        dao.updateClient(new Product(10, 100500, "Some"));
         System.out.println(dao.getAll());
     }
 
     @Test
-    public void productDeletingFromDatabaseWasSuccessful(){
-        dao.deleteClient(new Product(10,100500,"Some"));
+    public void productDeletingFromDatabaseWasSuccessful() {
+        dao.deleteClient(new Product(10, 100500, "Some"));
         System.out.println(dao.getAll());
     }
 }

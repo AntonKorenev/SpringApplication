@@ -10,9 +10,9 @@ import static org.junit.Assert.assertTrue;
 public class MapperXMLTest {
     @Test
     public void conversionOfFileToXMLWasSuccessful() {
-        Product product1 = new Product(1,1000,"tv");
-        Product product2 = new Product(2,200,"monitor");
-        Order testOrder = new Order(new Client("Anton","Korenev"), "buy", product1, product2);
+        Product product1 = new Product(1, 1000, "tv");
+        Product product2 = new Product(2, 200, "monitor");
+        Order testOrder = new Order(new Client("Anton", "Korenev"), "buy", product1, product2);
         testOrder.setId(-1);
         String responseXml = new MapperXML().convert(testOrder);
         System.out.println(responseXml);

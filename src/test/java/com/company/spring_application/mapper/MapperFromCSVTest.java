@@ -26,12 +26,12 @@ public class MapperFromCSVTest {
     Order order;
 
     @Before
-    public void init(){
+    public void init() {
         MapperFromCSV mapperFromCSV = (MapperFromCSV) context.getBean("mapperFromCSV");
         try {
             Class[] cArg = new Class[1];
             cArg[0] = String.class;
-            Method method = mapperFromCSV.getClass().getDeclaredMethod("formOrderFromCSV",cArg);
+            Method method = mapperFromCSV.getClass().getDeclaredMethod("formOrderFromCSV", cArg);
             method.setAccessible(true);
             order = (Order) method.invoke(mapperFromCSV, "1,Anton,Korenev,buy\n1,1000,tv\n2,200,monitor");
         } catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
@@ -40,13 +40,13 @@ public class MapperFromCSVTest {
     }
 
     @Test
-    public void connectorCSVGenerateProperFormat(){
-        assertTrue(order!=null);
-        assertEquals(order.getClass().getName(),"com.company.spring_application.domain.Order");
+    public void connectorCSVGenerateProperFormat() {
+        assertTrue(order != null);
+        assertEquals(order.getClass().getName(), "com.company.spring_application.domain.Order");
     }
 
     @Test
-    public void orderObjectWasFormedProperly(){
+    public void orderObjectWasFormedProperly() {
         assertTrue(1 == order.getId());
         assertEquals("Anton", order.getClient().getFirstName());
         assertEquals("Korenev", order.getClient().getLastName());
