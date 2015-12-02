@@ -1,4 +1,4 @@
-package com.company.spring_application.hibernate;
+package com.company.spring_application.databasehelpers;
 
 
 import javax.sql.DataSource;
