@@ -1,20 +1,27 @@
 package com.company.spring_application.hibernate;
 
+import com.company.spring_application.domain.Client;
 import com.company.spring_application.domain.Order;
+import com.company.spring_application.domain.Product;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.LinkedList;
+import java.util.List;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration("classpath:web.xml")
 @ContextConfiguration("classpath:spring_config.xml")
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class OrderDAOTest {
-
     OrderDAO dao;
 
     @Autowired
@@ -25,15 +32,19 @@ public class OrderDAOTest {
         dao=(OrderDAO) context.getBean("orderHibernateDao");
     }
 
-
     @Test
     public void testSaveOrder() throws Exception {
-        com.company.spring_application.dao.ClientDAO clientDAO = (com.company.spring_application.dao.ClientDAO) context.getBean("clientDao");
-        com.company.spring_application.dao.ProductDAO productDAO = (com.company.spring_application.dao.ProductDAO) context.getBean("productDao");
-        Order order = new Order(10,clientDAO.getById(3),"rent",productDAO.getById(3));
+        List<Product> list = new LinkedList<>();
+        Product product = new Product();
+        Client client = new Client();
+        list.add(product);
+        Order order = new Order(new Client(),"buy",list);
+        product.setOrder(order);
+        client.setOrder(order);
+        dao.save(order);
 
-        dao.saveOrder(order);
-        //System.out.println(dao.getAll());
-        //System.out.println(dao.getOrder(3));
+        System.out.println(dao.get(1));
+        dao.delete(1);
+        System.out.println(dao.getAll());
     }
 }

@@ -1,70 +1,58 @@
 package com.company.spring_application.domain;
 
+import com.company.spring_application.databasehelpers.DOInterface;
+
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 @Entity(name = "orders")
-public class Order implements Serializable{
+public class Order implements DOInterface {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int inDatabaseId;
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private int id;
 
-    @Column(name = "order_number")
-    private final int id;
-
-    @Embedded
-    @OneToOne
-    @JoinColumn(name = "id")
-    private final Client client;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    private Client client;
 
     @Column(name = "task")
     private final String taskDescription;
 
-    @Embedded
-    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "id")
+    @OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "order")
     private List<Product> products;
 
-    public Order(int id, Client client, String taskDescription, Product... products) {
-        this.id = id;
+    public Order(Client client, String taskDescription, Product... products) {
         this.client = client;
         this.products = Collections.unmodifiableList(new LinkedList<>(Arrays.asList(products)));
         this.taskDescription = taskDescription;
     }
 
-    public Order(int id, Client client, String taskDescription, List products) {
-        this.id = id;
+    public Order(Client client, String taskDescription, List products) {
         this.client = client;
         this.taskDescription = taskDescription;
         this.products = products;
     }
 
     public Order() {
-        id = 0;
-        client = new Client();
         List<Product> prs = new LinkedList<>();
         prs.add(new Product());
         products = Collections.unmodifiableList(prs);
         taskDescription="buy";
     }
 
-    public void setInDatabaseId(int databaseId) {
-        this.inDatabaseId = databaseId;
+    public void setId(int id) {
+        this.id = id;
     }
-
-    public int getInDatabaseId() {
-        return inDatabaseId;
-    }
-
     public int getId() {
         return id;
     }
 
+    public void setClient(Client client) {
+        this.client = client;
+    }
     public Client getClient() {
         return client;
     }

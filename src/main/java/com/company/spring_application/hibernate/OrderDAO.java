@@ -1,46 +1,36 @@
 package com.company.spring_application.hibernate;
 
+import com.company.spring_application.databasehelpers.AbstractSessionHolder;
+import com.company.spring_application.databasehelpers.HibernateDAOInterface;
 import com.company.spring_application.domain.Order;
-import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
-public class OrderDAO {
-    SessionFactory sessionFactory;
-
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-
-    @Transactional
-    public void saveOrder(Order order){
-        Session session=sessionFactory.openSession();
+public class OrderDAO extends AbstractSessionHolder implements HibernateDAOInterface<Order> {
+    @Override
+    public void delete(int id) {
+        Order deleting = get(id);
+        Session session=getSessionFactory().openSession();
         Transaction t=session.beginTransaction();
-        session.saveOrUpdate(order);
+        session.delete(deleting);
         t.commit();
         session.close();
     }
 
-    @Transactional
-    public List<Order> getAll(){
-        Session session = sessionFactory.openSession();
-        List<Order> orders = session.createCriteria(Order.class).list();
+    @Override
+    public void save(Order saving) {
+        Session session=getSessionFactory().openSession();
+        Transaction t=session.beginTransaction();
+        session.save(saving);
+        t.commit();
         session.close();
-        return orders;
     }
 
-    @Transactional
-    public Order getOrder(int id){
-        Session session = sessionFactory.openSession();
+    @Override
+    public Order get(int id) {
+        Session session = getSessionFactory().openSession();
         Order order = (Order)session.createCriteria(Order.class)
                 .add(Restrictions.eq("id",id))
                 .uniqueResult();
@@ -48,13 +38,11 @@ public class OrderDAO {
         return order;
     }
 
-    @Transactional
-    public int deleteOrder(int id){
-        Session session = sessionFactory.openSession();
-        Query query = session.createQuery("delete from orders where id = :ID");
-        query.setParameter("ID", id);
-        int result = query.executeUpdate();
+    @Override
+    public List<Order> getAll() {
+        Session session = getSessionFactory().openSession();
+        List<Order> orders = session.createCriteria(Order.class).list();
         session.close();
-        return result;
+        return orders;
     }
 }
