@@ -26,7 +26,7 @@ public class ClientDAOTest {
     }
 
     @Test
-    public void gettingClientsFormDatabaseWasSuccessfu() throws Exception {
+    public void gettingClientsFormDatabaseWasSuccessful() throws Exception {
         System.out.println(dao.getAll());
     }
 
@@ -37,12 +37,12 @@ public class ClientDAOTest {
 
     @Test
     public void gettingObjectByNameWasSuccessful(){
-        System.out.println(dao.getByName("Anton"));
+        System.out.println(dao.getByName("Aki"));
     }
 
     @Test
     public void gettingIdByClientWasSuccessful(){
-        System.out.println(dao.getIdByClient(new Client("Anton","Korenev")));
+        System.out.println(dao.getIdByClient(new Client("Aki","Nomi")));
     }
 
     @Test

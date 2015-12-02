@@ -1,92 +1,79 @@
 package com.company.spring_application.dao;
 
+import com.company.spring_application.databasehelpers.AbstractJdbcTemplateHolder;
 import com.company.spring_application.domain.Order;
 import com.company.spring_application.domain.Product;
-import org.springframework.jdbc.core.JdbcTemplate;
-
 import java.util.List;
 
-public class OrderDAO {
-    private JdbcTemplate jdbcTemplate;
+public class OrderDAO  extends AbstractJdbcTemplateHolder {
+    private final String tableName = "spring_application.orders";
     private ClientDAO clientDAO;
     private ProductDAO productDAO;
-    private final String tableName = "spring_application.orders";
-
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    public JdbcTemplate getJdbcTemplate() {
-        return jdbcTemplate;
-    }
-
 
     public void setClientDAO(ClientDAO clientDAO) {
         this.clientDAO = clientDAO;
     }
-
     public ClientDAO getClientDAO() {
         return clientDAO;
     }
 
-
     public void setProductDAO(ProductDAO productDAO) {
         this.productDAO = productDAO;
     }
-
     public ProductDAO getProductDAO() {
         return productDAO;
     }
 
-
     public List<Order> getAll(){
         StringBuilder sql = new StringBuilder("SELECT * FROM ");
         sql.append(tableName);
-        return jdbcTemplate.query(sql.toString(), (rs, rowNum) ->
-            new Order(rs.getInt(3),clientDAO.getById(rs.getInt(4)),rs.getString(2),productDAO.getById(rs.getInt(5)))
-        );
+        return getJdbcTemplate().query(sql.toString(), (rs, rowNum) -> {
+            System.out.println(rs.getInt(1));
+            Order order = new Order(clientDAO.getById(rs.getInt(3)),rs.getString(2),productDAO.getWhereOrderId(rs.getInt(1)));
+            order.setId(rs.getInt(1));
+            return order;
+        });
     }
 
     public List<Order> getByOrderNumber(int order_number){
         StringBuilder sql = new StringBuilder("select * from ");
         sql.append(tableName).append(" where order_number=").append(order_number);
-        return jdbcTemplate.query(sql.toString(), (rs, rowNum) ->
-                new Order(rs.getInt(3),clientDAO.getById(rs.getInt(4)),rs.getString(2),productDAO.getById(rs.getInt(5)))
+        return getJdbcTemplate().query(sql.toString(), (rs, rowNum) -> {
+                Order order = new Order(clientDAO.getById(rs.getInt(3)),rs.getString(2),productDAO.getById(rs.getInt(1)));
+                order.setId(rs.getInt(1));
+                return order;
+            }
         );
     }
 
     public void saveOrder(Order order){
-        //TODO: add logic to check whether client with specified name and surname exists in DB or not
-        //saving client to clients table
         clientDAO.save(order.getClient());
         int clientId = clientDAO.getIdByClient(order.getClient());
 
-        //creating several orders with same order_number but different id in DB and product_id
         for (Product p: order.getProducts()){
-            StringBuilder sql = new StringBuilder("INSERT INTO ");
-            sql.append(tableName).append(" (task,order_number,client_id,product_id) VALUES('")
-                    .append(order.getTaskDescription()).append("','")
-                    .append(order.getId()).append("','")
-                    .append(clientId).append("','")
-                    .append(p.getId()).append("')");
-            jdbcTemplate.update(sql.toString());
+            productDAO.save(p);
         }
-    }
 
+        StringBuilder sql = new StringBuilder("INSERT INTO ");
+        sql.append(tableName).append(" (task,client_id) VALUES('")
+                .append(order.getTaskDescription()).append("','")
+                .append(clientId).append("')");
+        getJdbcTemplate().update(sql.toString());
+    }
 
     public int deleteOrder(Order order){
         StringBuilder sql = new StringBuilder("DELETE FROM ");
         sql.append(tableName)
-                .append(" WHERE order_number='").append(order.getId())
+                .append(" WHERE id='").append(order.getId())
                 .append("'");
-        return jdbcTemplate.update(sql.toString());
+        return getJdbcTemplate().update(sql.toString());
     }
 
-    public int deleteOrder(int order_number){
+    public int deleteOrder(int id){
         StringBuilder sql = new StringBuilder("DELETE FROM ");
         sql.append(tableName)
-                .append(" WHERE order_number='").append(order_number)
+                .append(" WHERE id='").append(id)
                 .append("'");
-        return jdbcTemplate.update(sql.toString());
+        return getJdbcTemplate().update(sql.toString());
     }
 }

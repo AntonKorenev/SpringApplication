@@ -36,11 +36,15 @@ public class OrderDAOTest {
 
     @Test
     public void orderSavingWasSuccessful() throws Exception {
-        List<Product> products = new LinkedList<>();
-        products.add(new Product(1,1000,"router"));
-        products.add(new Product(11,2345,"PC"));
-        dao.saveOrder(new Order(12,new Client("Somebody","Something"),"buy",products));
-        //System.out.println(dao.getAll());
+        List<Product> list = new LinkedList<>();
+        Product product = new Product();
+        Client client = new Client();
+        list.add(product);
+        Order order = new Order(new Client(),"buy",list);
+        product.setOrder(order);
+        client.setOrder(order);
+        dao.saveOrder(order);
+        System.out.println(dao.getAll());
     }
 
     @Test
