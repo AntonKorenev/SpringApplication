@@ -1,11 +1,13 @@
 package com.company.spring_application.domain;
 
+import com.company.spring_application.databasehelpers.DOInterface;
+
 import javax.persistence.*;
 
 @Entity(name = "clients")
-public class Client {
+public class Client implements DOInterface {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private int id;
 
@@ -14,6 +16,9 @@ public class Client {
 
     @Column(name="last_name")
     private final String lastName;
+
+    @OneToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "client")
+    private Order order;
 
     public Client(String firstName, String lastName) {
         this.firstName = firstName;
@@ -25,10 +30,16 @@ public class Client {
         lastName = "Korenev";
     }
 
+    public Order getOrder() {
+        return order;
+    }
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }

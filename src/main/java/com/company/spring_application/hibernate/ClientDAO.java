@@ -1,62 +1,47 @@
 package com.company.spring_application.hibernate;
 
+import com.company.spring_application.databasehelpers.AbstractSessionHolder;
+import com.company.spring_application.databasehelpers.HibernateDAOInterface;
 import com.company.spring_application.domain.Client;
-import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Repository
-public class ClientDAO {
-    SessionFactory sessionFactory;
-
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-
-    @Transactional
-    public void saveClient(Client client){
-        Session session=sessionFactory.openSession();
+public class ClientDAO  extends AbstractSessionHolder implements HibernateDAOInterface<Client> {
+    @Override
+    public void delete(int id) {
+        Client deleting = get(id);
+        Session session=getSessionFactory().openSession();
         Transaction t=session.beginTransaction();
-        session.saveOrUpdate(client);
+        session.delete(deleting);
         t.commit();
         session.close();
     }
 
-    @Transactional
-    public Client getClient(int id){
-        Session session = sessionFactory.openSession();
-        Client client = (Client)session.createCriteria(Client.class)
+    @Override
+    public void save(Client saving) {
+        Session session=getSessionFactory().openSession();
+        Transaction t=session.beginTransaction();
+        session.save(saving);
+        t.commit();
+        session.close();
+    }
+
+    @Override
+    public Client get(int id) {
+        return (Client)getSessionFactory().openSession()
+                .createCriteria(Client.class)
                 .add(Restrictions.eq("id",id))
                 .uniqueResult();
-        session.close();
-        return client;
     }
 
-    @Transactional
-    public List<Client> getAll(){
-        Session session = sessionFactory.openSession();
-        List<Client> clients = session.createCriteria(Client.class).list();
+    @Override
+    public List<Client> getAll() {
+        Session session = getSessionFactory().openSession();
+        List<Client> products = session.createCriteria(Client.class).list();
         session.close();
-        return clients;
-    }
-
-    @Transactional
-    public int deleteClient(int id){
-        Session session = sessionFactory.openSession();
-        Query query = session.createQuery("delete from clients where id = :ID");
-        query.setParameter("ID", id);
-        int result = query.executeUpdate();
-        session.close();
-        return result;
+        return products;
     }
 }
