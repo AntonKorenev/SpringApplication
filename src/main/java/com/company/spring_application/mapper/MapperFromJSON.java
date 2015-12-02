@@ -33,7 +33,9 @@ public class MapperFromJSON {
         String lastName = orderJson.getString("lastName");
         String taskDecription = orderJson.getString("taskDescription");
 
-        return new Order(id, new Client(firstName, lastName), taskDecription, products);
+        Order order = new Order(new Client(firstName, lastName), taskDecription, products);
+        order.setId(id);
+        return order;
     }
 
     public void sendForProcessing(String jsonString){

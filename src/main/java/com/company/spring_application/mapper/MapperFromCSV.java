@@ -27,7 +27,9 @@ public class MapperFromCSV {
            String[] ps = orderAndProductsString[i].split(",");
            products[i-1] = new Product(Integer.valueOf(ps[0]),Double.valueOf(ps[1]),ps[2]);
        }
-       return new Order(Integer.valueOf(os[0]), new Client(os[1],os[2]), os[3], products);
+       Order order = new Order(new Client(os[1],os[2]), os[3], products);
+        order.setId(Integer.valueOf(os[0]));
+       return order;
     }
 
     public void sendForProcessing(String csvString){
