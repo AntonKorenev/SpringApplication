@@ -1,20 +1,25 @@
 package com.company.spring_application.domain;
 
+import com.company.spring_application.databasehelpers.DOInterface;
+
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity(name = "products")
-public class Product implements Serializable{
+public class Product implements DOInterface {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private final int id;
+    private int id;
+
+    @Column(name = "name")
+    private final String name;
 
     @Column(name = "price")
     private final double price;
 
-    @Column(name = "name")
-    private final String name;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "order_id", nullable = true)
+    Order order;
 
     public Product(int id, double price, String name) {
         this.id = id;
@@ -24,8 +29,14 @@ public class Product implements Serializable{
 
     public Product() {
         price = 0;
-        id = 0;
         name = "nothing";
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public int getId() {
