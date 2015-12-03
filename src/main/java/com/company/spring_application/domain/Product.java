@@ -1,6 +1,6 @@
 package com.company.spring_application.domain;
 
-import com.company.spring_application.databasehelpers.DOInterface;
+import com.company.spring_application.database_helpers.DOInterface;
 
 import javax.persistence.*;
 
