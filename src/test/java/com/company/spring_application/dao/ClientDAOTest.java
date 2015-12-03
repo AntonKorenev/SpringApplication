@@ -2,20 +2,26 @@ package com.company.spring_application.dao;
 
 import com.company.spring_application.domain.Client;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.junit.Assert.assertTrue;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration("classpath:web.xml")
 @ContextConfiguration("classpath:spring_config.xml")
-public class ClientDAOTest {
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class ClientDAOTest implements JdbcDaoTestInterface {
 
     ClientDAO dao;
+    Client referenceClient;
 
     @Autowired
     WebApplicationContext context;
@@ -23,37 +29,54 @@ public class ClientDAOTest {
     @Before
     public void init() {
         dao = (ClientDAO) context.getBean("clientDao");
+        referenceClient = new Client();
     }
 
+    @Override
     @Test
-    public void gettingClientsFormDatabaseWasSuccessful() throws Exception {
-        System.out.println(dao.getAll());
+    public void aSavingWasSuccesful() {
+        dao.save(new Client());
+        Client client = dao.get(dao.getLastId());
+        assertTrue(client.getFirstName().equals(referenceClient.getFirstName()));
+        assertTrue(referenceClient.getLastName().equals(client.getLastName()));
     }
 
-    @Test
-    public void savingToDatabaseWasSuccessful() {
-        System.out.println(dao.save(new Client("Somebody", "Something")));
+    @Override
+    @Test(expected = org.springframework.dao.EmptyResultDataAccessException.class)
+    public void bDeletingWasSuccessful() {
+        dao.delete(referenceClient);
+        System.out.println(dao.get(referenceClient.getFirstName()));
     }
 
+    @Override
     @Test
-    public void gettingObjectByNameWasSuccessful() {
-        System.out.println(dao.getByName("Aki"));
+    public void cUpdatingWasSuccessful() {
+        int last = dao.getLastId();
+        if (last <= 0) {
+            dao.save(referenceClient);
+            last = dao.getLastId();
+        }
+        dao.update(new Client("Upd", "Upd"), last);
+        Client client = dao.get(last);
+        assertTrue(client.getLastName().equals("Upd"));
+        assertTrue(client.getFirstName().equals("Upd"));
     }
 
+    @Override
     @Test
-    public void gettingIdByClientWasSuccessful() {
-        System.out.println(dao.getIdByClient(new Client("Aki", "Nomi")));
+    public void dGetAllReturnsProperValues() {
+        int beforeSize = dao.getAll().size();
+        dao.save(referenceClient);
+        dao.save(referenceClient);
+        assertTrue((dao.getAll().size() - beforeSize) == 2);
     }
 
+    @Override
     @Test
-    public void objectUpdatingWasSuccessful() {
-        dao.updateClient(new Client("Ivar", "Stark"), 2);
-        System.out.println(dao.getAll());
-    }
-
-    @Test
-    public void deletingFromDatabaseWasSuccessful() {
-        dao.deleteClient(new Client("Somebody", "Something"));
-        System.out.println(dao.getAll());
+    public void eGetLastIdWorksCorrectly() {
+        int before = dao.getLastId();
+        dao.save(referenceClient);
+        int after = dao.getLastId();
+        assertTrue((after - before) == 1);
     }
 }
