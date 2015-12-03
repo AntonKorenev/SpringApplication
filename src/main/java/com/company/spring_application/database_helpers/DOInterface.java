@@ -1,4 +1,4 @@
-package com.company.spring_application.databasehelpers;
+package com.company.spring_application.database_helpers;
 
 import java.io.Serializable;
 

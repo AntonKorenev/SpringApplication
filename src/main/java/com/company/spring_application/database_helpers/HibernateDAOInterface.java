@@ -1,6 +1,5 @@
-package com.company.spring_application.databasehelpers;
+package com.company.spring_application.database_helpers;
 
-import com.company.spring_application.databasehelpers.DOInterface;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -17,4 +16,7 @@ public interface HibernateDAOInterface<T extends DOInterface> {
 
     @Transactional
     public List<T> getAll();
+
+    @Transactional
+    public T getLast();
 }

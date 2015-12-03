@@ -1,4 +1,4 @@
-package com.company.spring_application.databasehelpers;
+package com.company.spring_application.database_helpers;
 
 import org.hibernate.SessionFactory;
 
