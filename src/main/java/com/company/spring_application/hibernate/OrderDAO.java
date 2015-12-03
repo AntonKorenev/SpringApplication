@@ -1,8 +1,9 @@
 package com.company.spring_application.hibernate;
 
-import com.company.spring_application.databasehelpers.AbstractSessionHolder;
-import com.company.spring_application.databasehelpers.HibernateDAOInterface;
+import com.company.spring_application.database_helpers.AbstractSessionHolder;
+import com.company.spring_application.database_helpers.HibernateDAOInterface;
 import com.company.spring_application.domain.Order;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -45,5 +46,15 @@ public class OrderDAO extends AbstractSessionHolder implements HibernateDAOInter
         List<Order> orders = session.createCriteria(Order.class).list();
         session.close();
         return orders;
+    }
+
+    @Override
+    public Order getLast(){
+        Session session = getSessionFactory().openSession();
+        Query query = session.createQuery("from orders order by id DESC");
+        query.setMaxResults(1);
+        Order last = (Order) query.uniqueResult();
+        session.close();
+        return last;
     }
 }

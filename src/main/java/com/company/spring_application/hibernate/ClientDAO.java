@@ -1,8 +1,9 @@
 package com.company.spring_application.hibernate;
 
-import com.company.spring_application.databasehelpers.AbstractSessionHolder;
-import com.company.spring_application.databasehelpers.HibernateDAOInterface;
+import com.company.spring_application.database_helpers.AbstractSessionHolder;
+import com.company.spring_application.database_helpers.HibernateDAOInterface;
 import com.company.spring_application.domain.Client;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -43,5 +44,15 @@ public class ClientDAO extends AbstractSessionHolder implements HibernateDAOInte
         List<Client> products = session.createCriteria(Client.class).list();
         session.close();
         return products;
+    }
+
+    @Override
+    public Client getLast(){
+        Session session = getSessionFactory().openSession();
+        Query query = session.createQuery("from clients order by id DESC");
+        query.setMaxResults(1);
+        Client last = (Client) query.uniqueResult();
+        session.close();
+        return last;
     }
 }
