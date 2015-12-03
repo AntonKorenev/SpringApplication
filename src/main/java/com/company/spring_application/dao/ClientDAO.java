@@ -46,6 +46,14 @@ public class ClientDAO extends AbstractJdbcTemplateHolder implements JdbcDaoInte
         getJdbcTemplate().update(sql.toString());
     }
 
+    public void delete(Client client) {
+        StringBuilder sql = new StringBuilder("DELETE FROM ");
+        sql.append(tableName)
+                .append(" WHERE id='").append(client.getId())
+                .append("'");
+        getJdbcTemplate().update(sql.toString());
+    }
+
     @Override
     public int getLastId() {
         StringBuilder sql = new StringBuilder("SELECT id FROM ");
@@ -59,15 +67,6 @@ public class ClientDAO extends AbstractJdbcTemplateHolder implements JdbcDaoInte
             ex.printStackTrace();
         }
         return last;
-    }
-
-    public int delete(Client client) {
-        StringBuilder sql = new StringBuilder("DELETE FROM ");
-        sql.append(tableName)
-                .append(" WHERE first_name='").append(client.getFirstName())
-                .append("' AND last_name='").append(client.getLastName())
-                .append("'");
-        return getJdbcTemplate().update(sql.toString());
     }
 
     public int update(Client client, int id) {

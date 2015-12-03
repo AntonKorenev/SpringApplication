@@ -1,6 +1,7 @@
 package com.company.spring_application.dao;
 
 import com.company.spring_application.domain.Client;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -42,10 +43,12 @@ public class ClientDAOTest implements JdbcDaoTestInterface {
     }
 
     @Override
-    @Test(expected = org.springframework.dao.EmptyResultDataAccessException.class)
+    @Test
     public void bDeletingWasSuccessful() {
-        dao.delete(referenceClient);
-        System.out.println(dao.get(referenceClient.getFirstName()));
+        dao.save(referenceClient);
+        int before = dao.getAll().size();
+        dao.delete(dao.getLastId());
+        Assert.assertTrue(dao.getAll().size() < before);
     }
 
     @Override
