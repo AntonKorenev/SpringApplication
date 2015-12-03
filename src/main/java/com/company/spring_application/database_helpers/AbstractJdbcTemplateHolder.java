@@ -1,15 +1,15 @@
 package com.company.spring_application.database_helpers;
 
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 public abstract class AbstractJdbcTemplateHolder {
-    private JdbcTemplate jdbcTemplate;
+    private NamedParameterJdbcTemplate jdbcTemplate;
 
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+    public void setJdbcTemplate(NamedParameterJdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public JdbcTemplate getJdbcTemplate() {
+    public NamedParameterJdbcTemplate getJdbcTemplate() {
         return jdbcTemplate;
     }
 }

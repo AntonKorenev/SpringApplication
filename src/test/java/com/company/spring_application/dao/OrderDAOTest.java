@@ -48,11 +48,13 @@ public class OrderDAOTest implements JdbcDaoTestInterface {
     }
 
     @Override
-    @Test(expected = org.springframework.dao.EmptyResultDataAccessException.class)
+    @Test
     public void bDeletingWasSuccessful() throws Exception {
-        int last = dao.getLastId();
-        dao.delete(last);
-        Assert.assertNull(dao.get(last));
+        int before = dao.getLastId();
+        dao.delete(before);
+        int after = dao.getLastId();
+        System.out.println(before + "  "+ after);
+        Assert.assertTrue(before > after);
     }
 
     @Override

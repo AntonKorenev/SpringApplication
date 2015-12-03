@@ -89,8 +89,8 @@
         <property name="password" value="sigma123"/>
     </bean>
 
-    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-        <property name="dataSource" ref="dataSource"/>
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+        <constructor-arg ref="dataSource" />
     </bean>
 
     <bean id="clientDao" class="com.company.spring_application.dao.ClientDAO">

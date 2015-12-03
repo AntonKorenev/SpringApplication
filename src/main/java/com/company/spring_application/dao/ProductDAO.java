@@ -4,29 +4,28 @@ import com.company.spring_application.database_helpers.AbstractJdbcTemplateHolde
 import com.company.spring_application.database_helpers.JdbcDaoInterface;
 import com.company.spring_application.domain.Product;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProductDAO extends AbstractJdbcTemplateHolder implements JdbcDaoInterface<Product> {
-    private final String tableName = "spring_application.products";
 
     @Override
     public List<Product> getAll() {
-        StringBuilder sql = new StringBuilder("select * from ");
-        sql.append(tableName);
-
-        return getJdbcTemplate().query(sql.toString(),
+        String sql = "SELECT * FROM spring_application.products";
+        return getJdbcTemplate().query(sql,
                 (rs, rowNum) -> new Product(rs.getInt(1), rs.getDouble(2), rs.getString(3))
         );
     }
 
     @Override
     public Product get(int id) {
-        StringBuilder sql = new StringBuilder("select * from ");
-        sql.append(tableName).append(" where id = ?");
+        StringBuilder sql = new StringBuilder("SELECT * FROM spring_application.products WHERE id = :id");
         Product product = (Product) getJdbcTemplate().queryForObject(
                 sql.toString(),
-                new Object[]{new Integer(id)},
+                new MapSqlParameterSource("id", id),
                 (RowMapper) (rs, rowNum) -> new Product(rs.getInt(1), rs.getDouble(2), rs.getString(3))
         );
         return product;
@@ -34,32 +33,26 @@ public class ProductDAO extends AbstractJdbcTemplateHolder implements JdbcDaoInt
 
     @Override
     public void save(Product product) {
-        StringBuilder sql = new StringBuilder("INSERT INTO ");
-        sql.append(tableName).append(" (id,price,name) VALUES('")
-                .append(product.getId()).append("','")
-                .append(product.getPrice()).append("','")
-                .append(product.getName()).append("')");
-        getJdbcTemplate().update(sql.toString());
+        String sql = "INSERT INTO spring_application.products (id,price,name) VALUES(:id,:price,:name)";
+        Map namedParameters = new HashMap();
+        namedParameters.put("id", product.getId());
+        namedParameters.put("price", product.getPrice());
+        namedParameters.put("name", product.getName());
+        getJdbcTemplate().update(sql, namedParameters);
     }
 
     @Override
     public void delete(int id) {
-        StringBuilder sql = new StringBuilder("DELETE FROM ");
-        sql.append(tableName)
-                .append(" WHERE id='").append(id)
-                .append("'");
-        getJdbcTemplate().update(sql.toString());
+        String sql = "DELETE FROM spring_application.products WHERE id = :id";
+        getJdbcTemplate().update(sql, new MapSqlParameterSource("id", id));
     }
 
     @Override
     public int getLastId() {
-        StringBuilder sql = new StringBuilder("SELECT id FROM ");
-        sql.append(tableName).append(" ORDER BY id DESC LIMIT 1;");
+        String sql = "SELECT id FROM spring_application.products ORDER BY id DESC LIMIT 1";
         int last = -1;
         try {
-            last = getJdbcTemplate().queryForObject(sql.toString(), (rs, rowNum) -> {
-                return rs.getInt(1);
-            });
+            last = getJdbcTemplate().query(sql, (rs, rowNum) -> rs.getInt(1)).get(0);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -67,20 +60,20 @@ public class ProductDAO extends AbstractJdbcTemplateHolder implements JdbcDaoInt
     }
 
     public List<Product> getAllInOrder(int orderId) {
-        StringBuilder sql = new StringBuilder("select * from ");
-        sql.append(tableName).append(" where order_id='").append(orderId).append("';");
-        return getJdbcTemplate().query(sql.toString(),
+        String sql = "SELECT * FROM spring_application.products WHERE order_id = :order_id";
+        return getJdbcTemplate().query(
+                sql,
+                new MapSqlParameterSource("order_id", orderId),
                 (rs, rowNum) -> new Product(rs.getInt(1), rs.getDouble(2), rs.getString(3))
         );
     }
 
     public int update(Product product) {
-        StringBuilder sql = new StringBuilder("UPDATE ");
-        sql.append(tableName)
-                .append(" SET id='").append(product.getId())
-                .append("',price='").append(product.getPrice())
-                .append("',name='").append(product.getName())
-                .append("' WHERE id='").append(product.getId()).append("' ");
-        return getJdbcTemplate().update(sql.toString());
+        String sql = "UPDATE spring_application.products SET id = :id, price = :price, name = :name WHERE id = :id";
+        Map namedParameters = new HashMap();
+        namedParameters.put("id", product.getId());
+        namedParameters.put("price", product.getPrice());
+        namedParameters.put("name", product.getName());
+        return getJdbcTemplate().update(sql, namedParameters);
     }
 }
