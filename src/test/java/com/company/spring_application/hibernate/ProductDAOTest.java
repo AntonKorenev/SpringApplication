@@ -19,7 +19,7 @@ import org.springframework.web.context.WebApplicationContext;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ProductDAOTest {
     ProductDAO dao;
-    Product ethalonProduct;
+    Product referenceProduct;
 
     @Autowired
     WebApplicationContext context;
@@ -27,28 +27,32 @@ public class ProductDAOTest {
     @Before
     public void init() {
         dao = (ProductDAO) context.getBean("productHibernateDao");
-        ethalonProduct = (Product) context.getBean("product");
+        referenceProduct = new Product();
     }
+
 
     @Test
     public void aSavingWasSuccessful() {
-        dao.save(ethalonProduct);
-        Product product = dao.get(1);
-        Assert.assertEquals(product.getPrice(), ethalonProduct.getPrice());
-        Assert.assertEquals(product.getName(), ethalonProduct.getName());
+        dao.save(referenceProduct);
+        Product product = dao.getLast();
+        Assert.assertTrue(product.getPrice() == referenceProduct.getPrice());
+        Assert.assertEquals(product.getName(),referenceProduct.getName());
     }
 
     @Test
     public void bGettingAllWasSuccesful() {
-        Product product = dao.getAll().get(0);
-
-        Assert.assertEquals(product.getPrice(), ethalonProduct.getPrice());
-        Assert.assertEquals(product.getName(), ethalonProduct.getName());
+        int before = dao.getAll().size();
+        dao.save(referenceProduct);
+        dao.save(referenceProduct);
+        int after = dao.getAll().size();
+        Assert.assertTrue((after-before)==2);
     }
 
     @Test
     public void cDeletingWasSuccesful() {
-        dao.delete(1);
-        Assert.assertNull(dao.get(1));
+        dao.save(referenceProduct);
+        int last = dao.getLast().getId();
+        dao.delete(last);
+        Assert.assertNull(dao.get(last));
     }
 }

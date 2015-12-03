@@ -19,7 +19,7 @@ import org.springframework.web.context.WebApplicationContext;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ClientDAOTest {
     ClientDAO dao;
-    Client ethalonClient;
+    Client referenceClient;
 
     @Autowired
     WebApplicationContext context;
@@ -27,28 +27,31 @@ public class ClientDAOTest {
     @Before
     public void init() {
         dao = (ClientDAO) context.getBean("clientHibernateDao");
-        ethalonClient = (Client) context.getBean("client");
+        referenceClient = new Client();
     }
 
     @Test
     public void aSavingWasSuccessful() {
-        dao.save(ethalonClient);
-        Client client = dao.get(1);
-        Assert.assertEquals(client.getFirstName(), ethalonClient.getFirstName());
-        Assert.assertEquals(client.getLastName(), ethalonClient.getLastName());
+        dao.save(referenceClient);
+        Client client = dao.getLast();
+        Assert.assertEquals(client.getFirstName(), referenceClient.getFirstName());
+        Assert.assertEquals(client.getLastName(), referenceClient.getLastName());
     }
 
     @Test
     public void bGettingAllWasSuccesful() {
-        Client client = dao.getAll().get(0);
-
-        Assert.assertEquals(client.getFirstName(), ethalonClient.getFirstName());
-        Assert.assertEquals(client.getLastName(), ethalonClient.getLastName());
+        int before = dao.getAll().size();
+        dao.save(referenceClient);
+        dao.save(referenceClient);
+        int after = dao.getAll().size();
+        Assert.assertTrue((after-before)==2);
     }
 
     @Test
     public void cDeletingWasSuccesful() {
-        dao.delete(1);
-        Assert.assertNull(dao.get(1));
+        dao.save(referenceClient);
+        int last = dao.getLast().getId();
+        dao.delete(last);
+        Assert.assertNull(dao.get(last));
     }
 }
