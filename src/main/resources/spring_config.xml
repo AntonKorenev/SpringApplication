@@ -66,29 +66,16 @@
     <bean id="order"
           class="com.company.spring_application.domain.Order"
           scope="prototype">
-        <constructor-arg ref="client"/>
-        <constructor-arg value="buy"/>
-        <constructor-arg>
-            <list>
-                <ref bean="product"/>
-            </list>
-        </constructor-arg>
     </bean>
 
     <bean id="product"
           class="com.company.spring_application.domain.Product"
           scope="prototype">
-        <constructor-arg value="7"/>
-        <constructor-arg value="1000"/>
-        <constructor-arg value="repeater"/>
     </bean>
 
     <bean id="client"
           class="com.company.spring_application.domain.Client"
           scope="prototype">
-        <constructor-arg value="Aki"/>
-        <constructor-arg value="Nomi"/>
-        <property name="id" value="6"/>
     </bean>
 
     <!-- Database part -->

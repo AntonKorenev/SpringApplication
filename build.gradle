@@ -43,6 +43,7 @@ sourceSets {
 dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'com.mockrunner:mockrunner-servlet:1.1.0'
+    testCompile 'org.mockito:mockito-all:1.9.5'
 
     compile 'commons-logging:commons-logging:1.2'
 
@@ -99,11 +100,11 @@ task runTest(type: Test) {
  * default system browser (it uses exec commands so that now it's for Windows
  * only).
  */
-task showTestReportWindows(type:Exec) { //on windows only:
+task showTestReportWindows(type: Exec) { //on windows only:
     doFirst {
-        try{
+        try {
             runTest.execute()
-        } catch(Exception gex){
+        } catch (Exception gex) {
             gex.printStackTrace();
             println 'Some tests were not passed'
         }
