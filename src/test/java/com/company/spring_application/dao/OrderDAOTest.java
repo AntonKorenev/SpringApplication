@@ -58,6 +58,7 @@ public class OrderDAOTest implements JdbcDaoTestInterface {
     @Override
     @Test
     public void cUpdatingWasSuccessful() throws Exception {
+        dao.save(referenceOrder);
         System.out.println("There is no 'update' method yet");
     }
 
@@ -76,6 +77,6 @@ public class OrderDAOTest implements JdbcDaoTestInterface {
         int before = dao.getLastId();
         dao.save(referenceOrder);
         int after = dao.getLastId();
-        Assert.assertTrue((after - before) == 1);
+        Assert.assertTrue(before != after);
     }
 }
