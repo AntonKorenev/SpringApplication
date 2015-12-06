@@ -46,7 +46,6 @@
 </head>
 
 <body>
-	<p>Click on this paragraph.</p>
 	<header>
 		<h1>Check your order details</h1>
 	</header>
