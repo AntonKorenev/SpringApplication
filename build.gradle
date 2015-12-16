@@ -109,8 +109,9 @@ remotes {
 task deploy << {
     ssh.run {
         session(remotes.webServer) {
+            execute 'sudo rm -r /root/gradlessh/build'
             put from: 'build', into: 'gradlessh'
-           // execute 'sudo service tomcat restart'
+            //execute 'bash -x /root/gradlessh/build/output/start.sh'
         }
     }
 }
