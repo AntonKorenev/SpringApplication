@@ -2,10 +2,10 @@ group 'com.company'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
-apply plugin: 'application'
 apply plugin: 'idea'
 apply plugin: 'war'
 apply plugin: 'org.akhikhl.gretty'
+apply plugin: 'org.hidetake.ssh'
 
 repositories {
     mavenCentral()
@@ -17,26 +17,7 @@ buildscript {
     }
     dependencies {
         classpath 'org.akhikhl.gretty:gretty:+'
-    }
-}
-
-sourceSets {
-    main {
-        java {
-            srcDir 'src/main/java'
-        }
-        resources {
-            srcDir 'src/main/resources'
-        }
-    }
-
-    test {
-        java {
-            srcDir 'src/test/java'
-        }
-        resources {
-            srcDir 'src/test/resources'
-        }
+        classpath "org.hidetake:gradle-ssh-plugin:1.1.4"
     }
 }
 
@@ -80,7 +61,7 @@ dependencies {
 }
 
 gretty {
-    port = 8080
+    httpPort = 8080
     contextPath = '/'
     servletContainer = 'jetty9'
 }
@@ -115,3 +96,25 @@ task showTestReportWindows(type: Exec) { //on windows only:
 }
 
 war.baseName = 'spring-application'
+
+remotes {
+    webServer {
+        host = '46.101.143.31'
+        user = 'root'
+        password = 'U9DffUYpvey4vaRLRsRr'
+        knownHosts = allowAnyHosts
+    }
+}
+
+task deploy << {
+    ssh.run {
+        session(remotes.webServer) {
+            put from: 'build', into: 'gradlessh'
+           // execute 'sudo service tomcat restart'
+        }
+    }
+}
+
+task prepareWrapper(type: Wrapper) {
+    gradleVersion = '2.9'
+}
