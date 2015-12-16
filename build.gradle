@@ -109,9 +109,9 @@ remotes {
 task deploy << {
     ssh.run {
         session(remotes.webServer) {
+            execute 'bash -x /root/gradlessh/build/output/spring_application/stop.sh'
             execute 'sudo rm -rf /root/gradlessh/build/*'
             put from: 'build', into: 'gradlessh'
-            execute 'bash -x /root/gradlessh/build/output/spring_application/stop.sh'
             execute 'bash -x /root/gradlessh/build/output/spring_application/start.sh'
         }
     }
